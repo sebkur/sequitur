@@ -61,10 +61,16 @@ public class RunSequiturStepwise implements DebugCallback
 			char c = input.charAt(i);
 			soFar.append(c);
 
+			RulePrinter printer = createPrinter();
+			System.out.println(headline);
+			System.out.println(printer.getTable());
+
 			System.out.println(headline);
 			System.out.println("Next character: '" + c + "', processed: '"
 					+ soFar + "'");
 			System.out.println(headline);
+			System.out.println("* "
+					+ printer.getProduction(sequitur.getFirstRule()) + c);
 
 			sequitur.process(c);
 		}
@@ -79,13 +85,23 @@ public class RunSequiturStepwise implements DebugCallback
 	}
 
 	@Override
-	public void preCreateRule()
+	public void preReuseRule(Rule rule)
 	{
-		// ignore
+		RulePrinter printer = createPrinter();
+		System.out.println(" > reuse: " + printer.getProduction(rule));
 	}
 
 	@Override
-	public void preUnderusedRule(NonTerminal nonTerminal)
+	public void reuseRule(Rule rule)
+	{
+		RulePrinter printer = createPrinter();
+		System.out.println();
+		System.out.println(printer.getTable());
+		System.out.println();
+	}
+
+	@Override
+	public void preCreateRule()
 	{
 		// ignore
 	}
@@ -95,11 +111,17 @@ public class RunSequiturStepwise implements DebugCallback
 	{
 		RulePrinter printer = createPrinter();
 
-		System.out.println("Create production: " + printer.getName(rule)
-				+ " -> " + printer.getRightSide(rule));
+		System.out.println(" > Create production: "
+				+ printer.getProduction(rule));
 		System.out.println();
+		System.out.println(printer.getTable());
+		System.out.println();
+	}
 
-		System.out.println(printer.getText());
+	@Override
+	public void preUnderusedRule(NonTerminal nonTerminal)
+	{
+		// ignore
 	}
 
 	@Override
@@ -107,30 +129,25 @@ public class RunSequiturStepwise implements DebugCallback
 	{
 		RulePrinter printer = createPrinter();
 
-		System.out.println("Underused production: "
+		System.out.println("* Underused production: "
 				+ printer.getName(nonTerminal.getRule()));
 		System.out.println();
 
-		System.out.println(printer.getText());
+		System.out.println(printer.getTable());
 	}
 
 	@Override
 	public void lookForDigram(Symbol symbol)
 	{
 		RulePrinter printer = createPrinter();
-		System.out.println("look for digram: " + printer.getSymbol(symbol)
+		System.out.println("* look for digram: " + printer.getSymbol(symbol)
 				+ printer.getSymbol(symbol.getNext()));
 	}
 
 	@Override
 	public void digramNotFound()
 	{
-		RulePrinter printer = createPrinter();
-
-		System.out.println("Digram not found");
-		System.out.println();
-
-		System.out.println(printer.getText());
+		System.out.println(" > Digram not found");
 	}
 
 }

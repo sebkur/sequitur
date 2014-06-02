@@ -41,6 +41,6 @@ public class RunSequitur
 		RulePrinter printer = new RulePrinter(sequitur,
 				NamingStrategy.USE_LETTERS_START_WITH_S,
 				NamingOrder.BY_CREATION);
-		System.out.println(printer.getText());
+		System.out.println(printer.getTable());
 	}
 }

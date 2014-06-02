@@ -121,8 +121,10 @@ public abstract class Symbol
 		if (n.isGuard()) {
 			return false;
 		}
+		sequitur.emitLookForDigram(this);
 		if (!sequitur.getDigrams().containsKey(this)) {
 			found = sequitur.getDigrams().put(this, this);
+			sequitur.emitDigramNotFound();
 			return false;
 		}
 		found = sequitur.getDigrams().get(this);
@@ -136,11 +138,25 @@ public abstract class Symbol
 	 * Replace a digram with a non-terminal.
 	 */
 
+	public void substituteExisting(Rule r)
+	{
+		cleanUp();
+		n.cleanUp();
+		p.insertAfter(new NonTerminal(sequitur, r));
+		if (!p.check()) {
+			p.n.check();
+		}
+	}
+
 	public void substitute(Rule r)
 	{
 		cleanUp();
 		n.cleanUp();
 		p.insertAfter(new NonTerminal(sequitur, r));
+	}
+
+	public void checkAfterSubstitute(Rule r)
+	{
 		if (!p.check()) {
 			p.n.check();
 		}
@@ -158,11 +174,14 @@ public abstract class Symbol
 			// reuse an existing rule
 
 			r = ((Guard) matching.p).r;
+			sequitur.emitPreReuseRule(r);
 			newD.substitute(r);
+			sequitur.emitReuseRule(r);
+			newD.checkAfterSubstitute(r);
 		} else {
 			// create a new rule
 
-			sequitur.emitPreNewRule();
+			sequitur.emitPreCreateRule();
 			r = new Rule(sequitur);
 			try {
 				Symbol first = (Symbol) newD.clone();
@@ -176,6 +195,9 @@ public abstract class Symbol
 
 				matching.substitute(r);
 				newD.substitute(r);
+				sequitur.emitCreateRule(r);
+				matching.checkAfterSubstitute(r);
+				newD.checkAfterSubstitute(r);
 
 				// Bug fix (21.8.2012): moved the following line
 				// to occur after substitutions (see sequitur_simple.cc)
@@ -184,7 +206,6 @@ public abstract class Symbol
 			} catch (CloneNotSupportedException c) {
 				c.printStackTrace();
 			}
-			sequitur.emitNewRule(r);
 		}
 
 		// Check for an underused rule.

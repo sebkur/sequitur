@@ -48,11 +48,7 @@ public class Sequitur
 	public void process(char c)
 	{
 		firstRule.last().insertAfter(new Terminal(this, c));
-		emitLookForDigram(firstRule.last().p);
 		boolean check = firstRule.last().p.check();
-		if (!check) {
-			emitDigramNotFound();
-		}
 	}
 
 	public void process(String input)
@@ -112,45 +108,59 @@ public class Sequitur
 		return firstRule;
 	}
 
-	private void emitLookForDigram(Symbol symbol)
+	void emitLookForDigram(Symbol symbol)
 	{
 		if (debugCallback != null) {
 			debugCallback.lookForDigram(symbol);
 		}
 	}
 
-	private void emitDigramNotFound()
+	void emitDigramNotFound()
 	{
 		if (debugCallback != null) {
 			debugCallback.digramNotFound();
 		}
 	}
 
-	public void emitPreNewRule()
+	void emitPreCreateRule()
 	{
 		if (debugCallback != null) {
 			debugCallback.preCreateRule();
 		}
 	}
 
-	public void emitNewRule(Rule rule)
+	void emitCreateRule(Rule rule)
 	{
 		if (debugCallback != null) {
 			debugCallback.createRule(rule);
 		}
 	}
 
-	public void emitPreUnderusedRule(NonTerminal nonTerminal)
+	void emitPreUnderusedRule(NonTerminal nonTerminal)
 	{
 		if (debugCallback != null) {
 			debugCallback.preUnderusedRule(nonTerminal);
 		}
 	}
 
-	public void emitUnderusedRule(NonTerminal nonTerminal)
+	void emitUnderusedRule(NonTerminal nonTerminal)
 	{
 		if (debugCallback != null) {
 			debugCallback.underusedRule(nonTerminal);
+		}
+	}
+
+	void emitPreReuseRule(Rule rule)
+	{
+		if (debugCallback != null) {
+			debugCallback.preReuseRule(rule);
+		}
+	}
+
+	void emitReuseRule(Rule rule)
+	{
+		if (debugCallback != null) {
+			debugCallback.reuseRule(rule);
 		}
 	}
 

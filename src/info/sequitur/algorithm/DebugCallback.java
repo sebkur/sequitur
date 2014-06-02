@@ -27,6 +27,10 @@ public interface DebugCallback
 
 	public void preCreateRule();
 
+	public void preReuseRule(Rule rule);
+
+	public void reuseRule(Rule rule);
+
 	public void createRule(Rule rule);
 
 	public void preUnderusedRule(NonTerminal nonTerminal);

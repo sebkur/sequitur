@@ -94,7 +94,7 @@ public class RulePrinter
 		}
 	}
 
-	public String getText()
+	public String getTable()
 	{
 		return text.toString();
 	}
@@ -150,6 +150,11 @@ public class RulePrinter
 		StringBuilder text = new StringBuilder();
 		createRightSide(text, rule);
 		return text.toString();
+	}
+
+	public String getProduction(Rule rule)
+	{
+		return getName(rule) + " -> " + getRightSide(rule);
 	}
 
 	public String getSymbol(Symbol symbol)

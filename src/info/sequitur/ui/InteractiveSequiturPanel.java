@@ -116,6 +116,6 @@ public class InteractiveSequiturPanel extends JPanel
 		RulePrinter printer = new RulePrinter(sequitur,
 				NamingStrategy.USE_LETTERS_START_WITH_S,
 				NamingOrder.BY_CREATION);
-		rules.setText(printer.getText());
+		rules.setText(printer.getTable());
 	}
 }
