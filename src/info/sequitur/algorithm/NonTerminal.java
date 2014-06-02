@@ -20,6 +20,7 @@
 
 package info.sequitur.algorithm;
 
+
 public class NonTerminal extends Symbol implements Cloneable
 {
 
@@ -77,6 +78,9 @@ public class NonTerminal extends Symbol implements Cloneable
 	public void expand()
 	{
 		sequitur.emitPreUnderusedRule(this);
+
+		// I think this one is missing in the original implementation!
+		deleteDigram();
 
 		sequitur.join(p, r.first());
 		sequitur.join(r.last(), n);
