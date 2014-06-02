@@ -210,8 +210,7 @@ public class Model implements DebugCallback
 	{
 		this.currentChar = currentChar;
 		this.currentStep = 0;
-		currentAction = actions.get(currentChar);
-		currentNumberOfSteps = currentAction.size();
+		currentNumberOfSteps = actions.get(currentChar).size();
 		triggerModelChanged();
 	}
 
@@ -233,7 +232,19 @@ public class Model implements DebugCallback
 
 	public State getCurrentState()
 	{
-		return currentAction.get(currentStep);
+		return actions.get(currentChar).get(currentStep);
+	}
+
+	public State getPreviousState()
+	{
+		if (currentChar == 0 && currentStep == 0) {
+			return null;
+		}
+		if (currentStep > 0) {
+			return actions.get(currentChar).get(currentStep - 1);
+		}
+		List<State> list = actions.get(currentChar - 1);
+		return list.get(list.size() - 1);
 	}
 
 }

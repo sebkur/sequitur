@@ -27,11 +27,12 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
-public class PresentationPanel extends JPanel
+public class PresentationPanel extends JPanel implements ModelChangeListener
 {
 
 	private static final long serialVersionUID = 1L;
@@ -55,13 +56,25 @@ public class PresentationPanel extends JPanel
 		bgChar = new ButtonGroup();
 		bgStep = new ButtonGroup();
 
-		JPanel panelButtons = new JPanel(new FlowLayout());
-		panelButtons.add(bgUni.getPrevious());
-		panelButtons.add(bgUni.getNext());
-		panelButtons.add(bgChar.getPrevious());
-		panelButtons.add(bgChar.getNext());
-		panelButtons.add(bgStep.getPrevious());
-		panelButtons.add(bgStep.getNext());
+		JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+		JPanel pUni = new JPanel(new FlowLayout());
+		pUni.setBorder(BorderFactory.createTitledBorder("Schritt"));
+		pUni.add(bgUni.getPrevious());
+		pUni.add(bgUni.getNext());
+		panelButtons.add(pUni);
+
+		JPanel pChar = new JPanel(new FlowLayout());
+		pChar.setBorder(BorderFactory.createTitledBorder("Zeichen"));
+		pChar.add(bgChar.getPrevious());
+		pChar.add(bgChar.getNext());
+		panelButtons.add(pChar);
+
+		JPanel pStep = new JPanel(new FlowLayout());
+		pStep.setBorder(BorderFactory.createTitledBorder("Zwischenschritt"));
+		pStep.add(bgStep.getPrevious());
+		pStep.add(bgStep.getNext());
+		panelButtons.add(pStep);
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -149,13 +162,17 @@ public class PresentationPanel extends JPanel
 		String text = input.getText();
 		model = new Model(text);
 		state.setModel(model);
+		model.addModelChangedListener(this);
+		modelChanged();
 	}
 
 	protected void prevUni()
 	{
 		if (!prevStep()) {
-			prevChar();
-			lastStep();
+			if (model.getCurrentChar() > 0) {
+				prevChar();
+				lastStep();
+			}
 		}
 	}
 
@@ -205,5 +222,20 @@ public class PresentationPanel extends JPanel
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void modelChanged()
+	{
+		int cc = model.getCurrentChar();
+		bgChar.getPrevious().setEnabled(cc > 0);
+		bgChar.getNext().setEnabled(cc < model.getLength() - 1);
+		int cs = model.getCurrentStep();
+		bgStep.getPrevious().setEnabled(cs > 0);
+		bgStep.getNext().setEnabled(cs < model.getCurrentNumberOfSteps() - 1);
+		bgUni.getPrevious().setEnabled(cc > 0 || cs > 0);
+		bgUni.getNext().setEnabled(
+				cc < model.getLength() - 1
+						|| cs < model.getCurrentNumberOfSteps() - 1);
 	}
 }

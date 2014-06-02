@@ -196,9 +196,9 @@ public class RulePrinter
 	{
 		if (symbol.isNonTerminal()) {
 			Rule referedTo = ((NonTerminal) symbol).getRule();
-			text.append("[");
+			// text.append("[");
 			text.append(getName(referedTo));
-			text.append("]");
+			// text.append("]");
 		} else if (symbol.isGuard()) {
 			text.append("$guard$");
 		} else {

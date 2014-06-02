@@ -22,6 +22,7 @@ package info.sequitur.ui.presentation;
 import info.sequitur.ui.presentation.state.SimpleState;
 import info.sequitur.ui.presentation.state.State;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -40,29 +41,49 @@ public class StatePanel extends JPanel implements ModelChangeListener
 	private JTextField fieldMessage;
 	private JTextArea areaGrammer;
 	private JTextArea areaDigrams;
+	private JTextArea areaOldGrammer;
+	private JTextArea areaOldDigrams;
 
 	private Model model;
 
 	public StatePanel()
 	{
+		float fontSize = 20;
+
 		fieldMessage = new JTextField();
 		areaGrammer = new JTextArea();
 		areaDigrams = new JTextArea();
+		areaOldGrammer = new JTextArea();
+		areaOldDigrams = new JTextArea();
 
-		fieldMessage.setFont(fieldMessage.getFont().deriveFont(20f));
-		areaGrammer.setFont(areaGrammer.getFont().deriveFont(20f));
-		areaDigrams.setFont(areaDigrams.getFont().deriveFont(20f));
+		fieldMessage.setFont(fieldMessage.getFont().deriveFont(fontSize));
+		areaGrammer.setFont(areaGrammer.getFont().deriveFont(fontSize));
+		areaDigrams.setFont(areaDigrams.getFont().deriveFont(fontSize));
+		areaOldGrammer.setFont(areaOldGrammer.getFont().deriveFont(fontSize));
+		areaOldDigrams.setFont(areaOldDigrams.getFont().deriveFont(fontSize));
 
 		areaGrammer.setEditable(false);
 		areaDigrams.setEditable(false);
+
+		areaOldGrammer.setEditable(false);
+		areaOldDigrams.setEditable(false);
 
 		areaGrammer.setBorder(BorderFactory
 				.createBevelBorder(BevelBorder.LOWERED));
 		areaDigrams.setBorder(BorderFactory
 				.createBevelBorder(BevelBorder.LOWERED));
+		areaOldGrammer.setBorder(BorderFactory
+				.createBevelBorder(BevelBorder.LOWERED));
+		areaOldDigrams.setBorder(BorderFactory
+				.createBevelBorder(BevelBorder.LOWERED));
+
+		areaOldGrammer.setBackground(new Color(0xDDDDDD));
+		areaOldDigrams.setBackground(new Color(0xDDDDDD));
 
 		JScrollPane scrollGrammer = new JScrollPane(areaGrammer);
 		JScrollPane scrollDigrams = new JScrollPane(areaDigrams);
+		JScrollPane scrollOldGrammer = new JScrollPane(areaOldGrammer);
+		JScrollPane scrollOldDigrams = new JScrollPane(areaOldDigrams);
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -85,6 +106,16 @@ public class StatePanel extends JPanel implements ModelChangeListener
 		c.gridx = 1;
 		c.gridy = 1;
 		add(scrollDigrams, c);
+
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weighty = 1.0;
+		add(scrollOldGrammer, c);
+
+		c.gridx = 1;
+		c.gridy = 2;
+		add(scrollOldDigrams, c);
 	}
 
 	public void setModel(Model model)
@@ -104,12 +135,26 @@ public class StatePanel extends JPanel implements ModelChangeListener
 			return;
 		}
 		State state = model.getCurrentState();
-		areaGrammer.setText(state.table);
-		areaDigrams.setText("Bigramm-Index\n" + state.digrams);
+		State oldState = model.getPreviousState();
 
 		if (state instanceof SimpleState) {
 			SimpleState simple = (SimpleState) state;
 			fieldMessage.setText(simple.message);
 		}
+
+		update(areaGrammer, areaDigrams, state);
+		update(areaOldGrammer, areaOldDigrams, oldState);
+	}
+
+	private void update(JTextArea areaGrammer, JTextArea areaDigrams,
+			State state)
+	{
+		if (state == null) {
+			areaGrammer.setText("");
+			areaDigrams.setText("");
+			return;
+		}
+		areaGrammer.setText(state.table);
+		areaDigrams.setText("Bigramm-Index\n" + state.digrams);
 	}
 }
