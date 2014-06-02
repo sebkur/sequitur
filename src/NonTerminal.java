@@ -17,12 +17,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-public class nonTerminal extends symbol implements Cloneable
+public class NonTerminal extends Symbol implements Cloneable
 {
 
-	rule r;
+	Rule r;
 
-	nonTerminal(rule theRule)
+	NonTerminal(Rule theRule)
 	{
 		r = theRule;
 		r.count++;
@@ -39,7 +39,7 @@ public class nonTerminal extends symbol implements Cloneable
 	protected Object clone()
 	{
 
-		nonTerminal sym = new nonTerminal(r);
+		NonTerminal sym = new NonTerminal(r);
 
 		sym.p = p;
 		sym.n = n;

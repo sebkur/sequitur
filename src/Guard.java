@@ -17,19 +17,37 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-public class terminal extends symbol implements Cloneable
+public class Guard extends Symbol
 {
 
-	terminal(int theValue)
+	Rule r;
+
+	Guard(Rule theRule)
 	{
-		value = theValue;
-		p = null;
-		n = null;
+		r = theRule;
+		value = 0;
+		p = this;
+		n = this;
 	}
 
 	public void cleanUp()
 	{
 		join(p, n);
-		deleteDigram();
+	}
+
+	public boolean isGuard()
+	{
+		return true;
+	}
+
+	public void deleteDigram()
+	{
+
+		// Do nothing
+	}
+
+	public boolean check()
+	{
+		return false;
 	}
 }

@@ -19,13 +19,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 import java.util.Vector;
 
-public class rule
+public class Rule
 {
 
 	// Guard symbol to mark beginning
 	// and end of rule.
 
-	public guard theGuard;
+	public Guard theGuard;
 
 	// Counter keeps track of how many
 	// times the rule is used in the
@@ -47,21 +47,21 @@ public class rule
 
 	public int index;
 
-	rule()
+	Rule()
 	{
 		number = numRules;
 		numRules++;
-		theGuard = new guard(this);
+		theGuard = new Guard(this);
 		count = 0;
 		index = 0;
 	}
 
-	public symbol first()
+	public Symbol first()
 	{
 		return theGuard.n;
 	}
 
-	public symbol last()
+	public Symbol last()
 	{
 		return theGuard.p;
 	}
@@ -70,9 +70,9 @@ public class rule
 	{
 
 		Vector rules = new Vector(numRules);
-		rule currentRule;
-		rule referedTo;
-		symbol sym;
+		Rule currentRule;
+		Rule referedTo;
+		Symbol sym;
 		int index;
 		int processedRules = 0;
 		StringBuffer text = new StringBuffer();
@@ -81,7 +81,7 @@ public class rule
 		text.append("Usage\tRule\n");
 		rules.addElement(this);
 		while (processedRules < rules.size()) {
-			currentRule = (rule) rules.elementAt(processedRules);
+			currentRule = (Rule) rules.elementAt(processedRules);
 			text.append(" ");
 			text.append(currentRule.count);
 			text.append("\tR");
@@ -89,9 +89,9 @@ public class rule
 			text.append(" -> ");
 			for (sym = currentRule.first(); (!sym.isGuard()); sym = sym.n) {
 				if (sym.isNonTerminal()) {
-					referedTo = ((nonTerminal) sym).r;
+					referedTo = ((NonTerminal) sym).r;
 					if ((rules.size() > referedTo.index)
-							&& ((rule) rules.elementAt(referedTo.index) == referedTo)) {
+							&& ((Rule) rules.elementAt(referedTo.index) == referedTo)) {
 						index = referedTo.index;
 					} else {
 						index = rules.size();

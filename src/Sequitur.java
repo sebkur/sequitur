@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 import java.awt.*;
 
-public class sequitur extends java.applet.Applet
+public class Sequitur extends java.applet.Applet
 {
 
 	TextArea text;
@@ -38,16 +38,16 @@ public class sequitur extends java.applet.Applet
 	public void runSequitur()
 	{
 
-		rule firstRule = new rule();
+		Rule firstRule = new Rule();
 		int i;
 
 		// Reset number of rules and Hashtable.
 
-		rule.numRules = 0;
-		symbol.theDigrams.clear();
+		Rule.numRules = 0;
+		Symbol.theDigrams.clear();
 		for (i = 0; i < text.getText().length(); i++) {
 			firstRule.last()
-					.insertAfter(new terminal(text.getText().charAt(i)));
+					.insertAfter(new Terminal(text.getText().charAt(i)));
 			firstRule.last().p.check();
 		}
 		rules.setText(firstRule.getRules());

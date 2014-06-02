@@ -19,22 +19,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 import java.util.Hashtable;
 
-public abstract class symbol
+public abstract class Symbol
 {
 
 	static final int numTerminals = 100000;
 
 	static final int prime = 2265539;
-	static Hashtable theDigrams = new Hashtable(symbol.prime);
+	static Hashtable theDigrams = new Hashtable(Symbol.prime);
 
 	public int value;
-	symbol p, n;
+	Symbol p, n;
 
 	/**
 	 * Links two symbols together, removing any old digram from the hash table.
 	 */
 
-	public static void join(symbol left, symbol right)
+	public static void join(Symbol left, Symbol right)
 	{
 
 		if (left.n != null) {
@@ -69,7 +69,7 @@ public abstract class symbol
 	 * Inserts a symbol after this one.
 	 */
 
-	public void insertAfter(symbol toInsert)
+	public void insertAfter(Symbol toInsert)
 	{
 		join(toInsert, n);
 		join(this, toInsert);
@@ -82,11 +82,11 @@ public abstract class symbol
 	public void deleteDigram()
 	{
 
-		symbol dummy;
+		Symbol dummy;
 
 		if (n.isGuard())
 			return;
-		dummy = (symbol) theDigrams.get(this);
+		dummy = (Symbol) theDigrams.get(this);
 
 		// Only delete digram if its exactly
 		// the stored one.
@@ -123,15 +123,15 @@ public abstract class symbol
 	public boolean check()
 	{
 
-		symbol found;
+		Symbol found;
 
 		if (n.isGuard())
 			return false;
 		if (!theDigrams.containsKey(this)) {
-			found = (symbol) theDigrams.put(this, this);
+			found = (Symbol) theDigrams.put(this, this);
 			return false;
 		}
-		found = (symbol) theDigrams.get(this);
+		found = (Symbol) theDigrams.get(this);
 		if (found.n != this)
 			match(this, found);
 		return true;
@@ -141,11 +141,11 @@ public abstract class symbol
 	 * Replace a digram with a non-terminal.
 	 */
 
-	public void substitute(rule r)
+	public void substitute(Rule r)
 	{
 		cleanUp();
 		n.cleanUp();
-		p.insertAfter(new nonTerminal(r));
+		p.insertAfter(new NonTerminal(r));
 		if (!p.check())
 			p.n.check();
 	}
@@ -154,26 +154,26 @@ public abstract class symbol
 	 * Deal with a matching digram.
 	 */
 
-	public void match(symbol newD, symbol matching)
+	public void match(Symbol newD, Symbol matching)
 	{
 
-		rule r;
-		symbol first, second, dummy;
+		Rule r;
+		Symbol first, second, dummy;
 
 		if (matching.p.isGuard() && matching.n.n.isGuard()) {
 
 			// reuse an existing rule
 
-			r = ((guard) matching.p).r;
+			r = ((Guard) matching.p).r;
 			newD.substitute(r);
 		} else {
 
 			// create a new rule
 
-			r = new rule();
+			r = new Rule();
 			try {
-				first = (symbol) newD.clone();
-				second = (symbol) newD.n.clone();
+				first = (Symbol) newD.clone();
+				second = (Symbol) newD.n.clone();
 				r.theGuard.n = first;
 				first.p = r.theGuard;
 				first.n = second;
@@ -196,8 +196,8 @@ public abstract class symbol
 		// Check for an underused rule.
 
 		if (r.first().isNonTerminal()
-				&& (((nonTerminal) r.first()).r.count == 1))
-			((nonTerminal) r.first()).expand();
+				&& (((NonTerminal) r.first()).r.count == 1))
+			((NonTerminal) r.first()).expand();
 	}
 
 	/**
@@ -223,6 +223,6 @@ public abstract class symbol
 
 	public boolean equals(Object obj)
 	{
-		return ((value == ((symbol) obj).value) && (n.value == ((symbol) obj).n.value));
+		return ((value == ((Symbol) obj).value) && (n.value == ((Symbol) obj).n.value));
 	}
 }
