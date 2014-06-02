@@ -3,6 +3,7 @@ package info.sequitur;
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
  Copyright (C) 1997 Eibe Frank
+ Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -54,35 +55,45 @@ public class Sequitur extends JPanel
 				"pease porridge hot,\npease porridge cold,\npease porridge in the pot,\nnine days old.\n\nsome like it hot,\nsome like it cold,\nsome like it in the pot,\nnine days old.\n");
 
 		setLayout(new FlowLayout());
+
 		dataPanel = new JPanel();
 		dataPanel.setLayout(new BorderLayout());
 		add(dataPanel);
+
 		label1Panel = new JPanel();
 		label1Panel.setLayout(new FlowLayout());
 		dataPanel.add("North", label1Panel);
+
 		dataLabel = new JLabel("Data");
 		dataLabel.setFont(f1);
 		label1Panel.add(dataLabel);
+
 		text = new JTextArea(9, 70);
 		text.setFont(f2);
 		text.setText(defaultText);
 		dataPanel.add("South", text);
+
 		rulesPanel = new JPanel();
 		rulesPanel.setLayout(new BorderLayout());
 		add(rulesPanel);
+
 		label2Panel = new JPanel();
 		label2Panel.setLayout(new FlowLayout());
 		rulesPanel.add("North", label2Panel);
+
 		rulesLabel = new JLabel("Grammar");
 		rulesLabel.setFont(f1);
 		label2Panel.add(rulesLabel);
+
 		rules = new JTextArea(9, 70);
 		rules.setEditable(false);
 		rules.setFont(f2);
 		rulesPanel.add("South", rules);
+
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		add(buttonPanel);
+
 		submit = new JButton("Run sequitur");
 		submit.setFont(f1);
 		buttonPanel.add(submit);
