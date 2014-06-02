@@ -23,10 +23,10 @@ package info.sequitur.algorithm;
 public class Terminal extends Symbol implements Cloneable
 {
 
-	Terminal(Sequitur sequitur, int theValue)
+	Terminal(Sequitur sequitur, int value)
 	{
 		super(sequitur);
-		value = theValue;
+		this.value = value;
 		p = null;
 		n = null;
 	}

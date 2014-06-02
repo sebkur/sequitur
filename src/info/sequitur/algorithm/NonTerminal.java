@@ -25,10 +25,10 @@ public class NonTerminal extends Symbol implements Cloneable
 
 	Rule r;
 
-	NonTerminal(Sequitur sequitur, Rule theRule)
+	NonTerminal(Sequitur sequitur, Rule rule)
 	{
 		super(sequitur);
-		r = theRule;
+		r = rule;
 		r.count++;
 		value = numTerminals + r.number;
 		p = null;
@@ -83,7 +83,7 @@ public class NonTerminal extends Symbol implements Cloneable
 		// Necessary so that garbage collector
 		// can delete rule and guard.
 
-		r.theGuard.r = null;
-		r.theGuard = null;
+		r.guard.r = null;
+		r.guard = null;
 	}
 }

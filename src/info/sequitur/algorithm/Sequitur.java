@@ -28,7 +28,7 @@ public class Sequitur
 	// The total number of rules.
 	private int numRules = 0;
 	// The hash table for the digrams
-	private Hashtable<Symbol, Symbol> theDigrams = new Hashtable<Symbol, Symbol>(
+	private Hashtable<Symbol, Symbol> digrams = new Hashtable<Symbol, Symbol>(
 			Symbol.prime);
 
 	private Rule firstRule = new Rule(this);
@@ -62,12 +62,12 @@ public class Sequitur
 			if ((right.p != null) && (right.n != null)
 					&& right.value == right.p.value
 					&& right.value == right.n.value) {
-				theDigrams.put(right, right);
+				digrams.put(right, right);
 			}
 
 			if ((left.p != null) && (left.n != null)
 					&& left.value == left.n.value && left.value == left.p.value) {
-				theDigrams.put(left.p, left.p);
+				digrams.put(left.p, left.p);
 			}
 		}
 
@@ -80,14 +80,16 @@ public class Sequitur
 		return numRules;
 	}
 
-	public void setNumRules(int numRules)
+	public int getNextRuleId()
 	{
-		this.numRules = numRules;
+		int n = numRules;
+		numRules++;
+		return n;
 	}
 
 	public Hashtable<Symbol, Symbol> getDigrams()
 	{
-		return theDigrams;
+		return digrams;
 	}
 
 	public Rule getFirstRule()

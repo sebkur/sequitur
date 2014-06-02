@@ -30,7 +30,7 @@ public class Rule
 	// Guard symbol to mark beginning
 	// and end of rule.
 
-	public Guard theGuard;
+	public Guard guard;
 
 	// Counter keeps track of how many
 	// times the rule is used in the
@@ -51,21 +51,20 @@ public class Rule
 	Rule(Sequitur sequitur)
 	{
 		this.sequitur = sequitur;
-		number = sequitur.getNumRules();
-		sequitur.setNumRules(number + 1);
-		theGuard = new Guard(sequitur, this);
+		number = sequitur.getNextRuleId();
+		guard = new Guard(sequitur, this);
 		count = 0;
 		index = 0;
 	}
 
 	public Symbol first()
 	{
-		return theGuard.n;
+		return guard.n;
 	}
 
 	public Symbol last()
 	{
-		return theGuard.p;
+		return guard.p;
 	}
 
 	public String getRules()

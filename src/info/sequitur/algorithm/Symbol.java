@@ -148,12 +148,12 @@ public abstract class Symbol
 			try {
 				Symbol first = (Symbol) newD.clone();
 				Symbol second = (Symbol) newD.n.clone();
-				r.theGuard.n = first;
-				first.p = r.theGuard;
+				r.guard.n = first;
+				first.p = r.guard;
 				first.n = second;
 				second.p = first;
-				second.n = r.theGuard;
-				r.theGuard.p = second;
+				second.n = r.guard;
+				r.guard.p = second;
 
 				matching.substitute(r);
 				newD.substitute(r);

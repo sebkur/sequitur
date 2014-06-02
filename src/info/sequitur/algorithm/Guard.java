@@ -25,10 +25,10 @@ public class Guard extends Symbol
 
 	Rule r;
 
-	Guard(Sequitur sequitur, Rule theRule)
+	Guard(Sequitur sequitur, Rule rule)
 	{
 		super(sequitur);
-		r = theRule;
+		r = rule;
 		value = 0;
 		p = this;
 		n = this;
