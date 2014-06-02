@@ -99,13 +99,31 @@ public class SequiturUtil
 		default:
 		case USE_R_PLUS_NUMBER:
 			return "R" + index;
-		case USE_LETTERS:
+		case USE_LETTERS: {
 			int offset = index % 26;
 			char c = (char) ('A' + offset);
 			if (index < 26) {
 				return "" + c;
 			}
 			return c + "" + (index / 26);
+		}
+		case USE_LETTERS_START_WITH_S: {
+			if (index == 0) {
+				return "S";
+			}
+			index -= 1;
+			int offset = index % 25;
+			char c;
+			if (offset < 18) {
+				c = (char) ('A' + offset);
+			} else {
+				c = (char) ('A' + offset + 1);
+			}
+			if (index < 25) {
+				return "" + c;
+			}
+			return c + "" + (index / 25);
+		}
 		}
 	}
 }

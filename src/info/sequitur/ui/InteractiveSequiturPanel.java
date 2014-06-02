@@ -113,7 +113,7 @@ public class InteractiveSequiturPanel extends JPanel
 		Sequitur sequitur = new Sequitur();
 		sequitur.process(text.getText());
 		rules.setText(SequiturUtil.buildRuleTable(sequitur,
-				NamingStrategy.USE_LETTERS));
+				NamingStrategy.USE_LETTERS_START_WITH_S));
 	}
 
 }

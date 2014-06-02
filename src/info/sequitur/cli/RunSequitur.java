@@ -38,6 +38,6 @@ public class RunSequitur
 		Sequitur sequitur = new Sequitur();
 		sequitur.process(input);
 		System.out.println(SequiturUtil.buildRuleTable(sequitur,
-				NamingStrategy.USE_LETTERS));
+				NamingStrategy.USE_LETTERS_START_WITH_S));
 	}
 }
