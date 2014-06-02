@@ -33,6 +33,7 @@ public class Sequitur
 
 	// The total number of rules.
 	private int numRules = 0;
+	// The hash table for the digrams
 	private Hashtable<Symbol, Symbol> theDigrams = new Hashtable<Symbol, Symbol>(
 			Symbol.prime);
 
@@ -57,7 +58,6 @@ public class Sequitur
 
 	public void join(Symbol left, Symbol right)
 	{
-
 		if (left.n != null) {
 			left.deleteDigram();
 
