@@ -1,5 +1,3 @@
-package info.sequitur;
-
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
  Copyright (C) 1997 Eibe Frank
@@ -19,6 +17,8 @@ package info.sequitur;
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
+package info.sequitur;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
