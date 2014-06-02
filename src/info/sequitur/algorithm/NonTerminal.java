@@ -42,7 +42,6 @@ public class NonTerminal extends Symbol implements Cloneable
 
 	protected Object clone()
 	{
-
 		NonTerminal sym = new NonTerminal(sequitur, r);
 
 		sym.p = p;

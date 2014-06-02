@@ -106,8 +106,9 @@ public class Rule
 					} else {
 						if (sym.value == '\n') {
 							text.append("\\n");
-						} else
+						} else {
 							text.append((char) sym.value);
+						}
 					}
 				}
 				text.append(' ');

@@ -29,7 +29,7 @@ public abstract class Symbol
 
 	protected Sequitur sequitur;
 
-	public int value;
+	int value;
 	Symbol p, n;
 
 	public Symbol(Sequitur sequitur)
@@ -59,11 +59,11 @@ public abstract class Symbol
 
 	public void deleteDigram()
 	{
-
 		Symbol dummy;
 
-		if (n.isGuard())
+		if (n.isGuard()) {
 			return;
+		}
 		dummy = sequitur.getDigrams().get(this);
 
 		// Only delete digram if its exactly
@@ -101,7 +101,6 @@ public abstract class Symbol
 
 	public boolean check()
 	{
-
 		Symbol found;
 
 		if (n.isGuard())
@@ -135,24 +134,20 @@ public abstract class Symbol
 
 	public void match(Symbol newD, Symbol matching)
 	{
-
 		Rule r;
-		Symbol first, second;
 
 		if (matching.p.isGuard() && matching.n.n.isGuard()) {
-
 			// reuse an existing rule
 
 			r = ((Guard) matching.p).r;
 			newD.substitute(r);
 		} else {
-
 			// create a new rule
 
 			r = new Rule(sequitur);
 			try {
-				first = (Symbol) newD.clone();
-				second = (Symbol) newD.n.clone();
+				Symbol first = (Symbol) newD.clone();
+				Symbol second = (Symbol) newD.n.clone();
 				r.theGuard.n = first;
 				first.p = r.theGuard;
 				first.n = second;
@@ -175,8 +170,9 @@ public abstract class Symbol
 		// Check for an underused rule.
 
 		if (r.first().isNonTerminal()
-				&& (((NonTerminal) r.first()).r.count == 1))
+				&& (((NonTerminal) r.first()).r.count == 1)) {
 			((NonTerminal) r.first()).expand();
+		}
 	}
 
 	/**
@@ -185,13 +181,10 @@ public abstract class Symbol
 
 	public int hashCode()
 	{
-
-		long code;
-
 		// Values in linear combination with two
 		// prime numbers.
 
-		code = ((21599 * (long) value) + (20507 * (long) n.value));
+		long code = ((21599 * (long) value) + (20507 * (long) n.value));
 		code = code % (long) prime;
 		return (int) code;
 	}
