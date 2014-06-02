@@ -70,9 +70,12 @@ public class RulePrinter
 			});
 		}
 
-		for (Rule rule : rules) {
+		for (int i = 0; i < rules.size() - 1; i++) {
+			Rule rule = rules.get(i);
 			appendRow(text, rule);
+			text.append('\n');
 		}
+		appendRow(text, rules.get(rules.size() - 1));
 	}
 
 	private void traverse(Rule currentRule, int processedRules)
@@ -119,7 +122,6 @@ public class RulePrinter
 			}
 			text.append(' ');
 		}
-		text.append('\n');
 	}
 
 	private String name(Rule rule)
