@@ -137,7 +137,7 @@ public abstract class Symbol
 	{
 
 		Rule r;
-		Symbol first, second, dummy;
+		Symbol first, second;
 
 		if (matching.p.isGuard() && matching.n.n.isGuard()) {
 
