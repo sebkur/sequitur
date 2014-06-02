@@ -1,6 +1,7 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
  Copyright (C) 1997 Eibe Frank
+ Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -23,6 +24,7 @@ import java.util.Vector;
 
 public class Rule
 {
+	private Sequitur sequitur;
 
 	// Guard symbol to mark beginning
 	// and end of rule.
@@ -35,10 +37,6 @@ public class Rule
 
 	public int count;
 
-	// The total number of rules.
-
-	public static int numRules = 0;
-
 	// The rule's number.
 	// Used for identification of
 	// non-terminals.
@@ -49,11 +47,12 @@ public class Rule
 
 	public int index;
 
-	Rule()
+	Rule(Sequitur sequitur)
 	{
-		number = numRules;
-		numRules++;
-		theGuard = new Guard(this);
+		this.sequitur = sequitur;
+		number = sequitur.getNumRules();
+		sequitur.setNumRules(number + 1);
+		theGuard = new Guard(sequitur, this);
 		count = 0;
 		index = 0;
 	}
@@ -70,8 +69,7 @@ public class Rule
 
 	public String getRules()
 	{
-
-		Vector rules = new Vector(numRules);
+		Vector rules = new Vector(sequitur.getNumRules());
 		Rule currentRule;
 		Rule referedTo;
 		Symbol sym;

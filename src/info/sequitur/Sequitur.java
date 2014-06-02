@@ -20,105 +20,79 @@
 
 package info.sequitur;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.util.Hashtable;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.event.DocumentEvent;
-
-public class Sequitur extends JPanel
+public class Sequitur
 {
 
-	private static final long serialVersionUID = 1L;
-
-	private JTextArea text;
-	private JTextArea rules;
-	private JLabel dataLabel;
-	private JLabel rulesLabel;
-	private Font f1 = new Font("TimesRoman", Font.BOLD, 18);
-	private Font f2 = new Font("TimesRoman", Font.PLAIN, 12);
-
-	public Sequitur()
+	public static Rule run(String input)
 	{
-		String defaultText = new String(
-				"pease porridge hot,\npease porridge cold,\npease porridge in the pot,\nnine days old.\n\nsome like it hot,\nsome like it cold,\nsome like it in the pot,\nnine days old.\n");
-
-		setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-
-		dataLabel = new JLabel("Data");
-		dataLabel.setFont(f1);
-
-		text = new JTextArea(9, 70);
-		text.setFont(f2);
-
-		rulesLabel = new JLabel("Grammar");
-		rulesLabel.setFont(f1);
-
-		rules = new JTextArea(9, 70);
-		rules.setEditable(false);
-		rules.setFont(f2);
-
-		JScrollPane scrollText = new JScrollPane(text);
-		JScrollPane scrollRules = new JScrollPane(rules);
-
-		c.gridx = 0;
-		c.gridy = 0;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1.0;
-		c.weighty = 0.0;
-		add(dataLabel, c);
-
-		c.gridy++;
-		c.weighty = 1.0;
-		add(scrollText, c);
-
-		c.gridy++;
-		c.weighty = 0.0;
-		add(rulesLabel, c);
-
-		c.gridy++;
-		c.weighty = 1.0;
-		add(scrollRules, c);
-
-		text.getDocument().addDocumentListener(new SimpleDocumentListener() {
-
-			@Override
-			public void someUpdate(DocumentEvent e)
-			{
-				updateGrammer();
-			}
-		});
-
-		text.setText(defaultText);
+		Sequitur sequitur = new Sequitur();
+		return sequitur.reallyRun(input);
 	}
 
-	protected void updateGrammer()
-	{
-		text.setEditable(false);
-		runSequitur();
-		text.setEditable(true);
-	}
+	// The total number of rules.
+	private int numRules = 0;
+	private Hashtable<Symbol, Symbol> theDigrams = new Hashtable<Symbol, Symbol>(
+			Symbol.prime);
 
-	public void runSequitur()
+	private Rule reallyRun(String input)
 	{
-		Rule firstRule = new Rule();
-		int i;
+		Rule firstRule = new Rule(this);
 
 		// Reset number of rules and Hashtable.
 
-		Rule.numRules = 0;
-		Symbol.theDigrams.clear();
-		for (i = 0; i < text.getText().length(); i++) {
-			firstRule.last()
-					.insertAfter(new Terminal(text.getText().charAt(i)));
+		numRules = 0;
+		theDigrams.clear();
+		for (int i = 0; i < input.length(); i++) {
+			firstRule.last().insertAfter(new Terminal(this, input.charAt(i)));
 			firstRule.last().p.check();
 		}
-		rules.setText(firstRule.getRules());
+		return firstRule;
+	}
+
+	/**
+	 * Links two symbols together, removing any old digram from the hash table.
+	 */
+
+	public void join(Symbol left, Symbol right)
+	{
+
+		if (left.n != null) {
+			left.deleteDigram();
+
+			// Bug fix (21.8.2012): included two if statements, adapted from
+			// sequitur_simple.cc, to deal with triples
+
+			if ((right.p != null) && (right.n != null)
+					&& right.value == right.p.value
+					&& right.value == right.n.value) {
+				theDigrams.put(right, right);
+			}
+
+			if ((left.p != null) && (left.n != null)
+					&& left.value == left.n.value && left.value == left.p.value) {
+				theDigrams.put(left.p, left.p);
+			}
+		}
+
+		left.n = right;
+		right.p = left;
+	}
+
+	public int getNumRules()
+	{
+		return numRules;
+	}
+
+	public void setNumRules(int numRules)
+	{
+		this.numRules = numRules;
+	}
+
+	public Hashtable<Symbol, Symbol> getDigrams()
+	{
+		return theDigrams;
 	}
 
 }

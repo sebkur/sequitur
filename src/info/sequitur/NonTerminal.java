@@ -1,6 +1,7 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
  Copyright (C) 1997 Eibe Frank
+ Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -24,8 +25,9 @@ public class NonTerminal extends Symbol implements Cloneable
 
 	Rule r;
 
-	NonTerminal(Rule theRule)
+	NonTerminal(Sequitur sequitur, Rule theRule)
 	{
+		super(sequitur);
 		r = theRule;
 		r.count++;
 		value = numTerminals + r.number;
@@ -41,7 +43,7 @@ public class NonTerminal extends Symbol implements Cloneable
 	protected Object clone()
 	{
 
-		NonTerminal sym = new NonTerminal(r);
+		NonTerminal sym = new NonTerminal(sequitur, r);
 
 		sym.p = p;
 		sym.n = n;
@@ -50,7 +52,7 @@ public class NonTerminal extends Symbol implements Cloneable
 
 	public void cleanUp()
 	{
-		join(p, n);
+		sequitur.join(p, n);
 		deleteDigram();
 		r.count--;
 	}
@@ -67,14 +69,14 @@ public class NonTerminal extends Symbol implements Cloneable
 
 	public void expand()
 	{
-		join(p, r.first());
-		join(r.last(), n);
+		sequitur.join(p, r.first());
+		sequitur.join(r.last(), n);
 
 		// Bug fix (21.8.2012): digram consisting of the last element of
 		// the inserted rule and the first element after the inserted rule
 		// must be put into the hash table (Simon Schwarzer)
 
-		theDigrams.put(r.last(), r.last());
+		sequitur.getDigrams().put(r.last(), r.last());
 
 		// Necessary so that garbage collector
 		// can delete rule and guard.

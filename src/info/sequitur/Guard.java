@@ -1,6 +1,7 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
  Copyright (C) 1997 Eibe Frank
+ Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -24,8 +25,9 @@ public class Guard extends Symbol
 
 	Rule r;
 
-	Guard(Rule theRule)
+	Guard(Sequitur sequitur, Rule theRule)
 	{
+		super(sequitur);
 		r = theRule;
 		value = 0;
 		p = this;
@@ -34,7 +36,7 @@ public class Guard extends Symbol
 
 	public void cleanUp()
 	{
-		join(p, n);
+		sequitur.join(p, n);
 	}
 
 	public boolean isGuard()
@@ -44,7 +46,6 @@ public class Guard extends Symbol
 
 	public void deleteDigram()
 	{
-
 		// Do nothing
 	}
 

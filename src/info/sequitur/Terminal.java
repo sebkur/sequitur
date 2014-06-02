@@ -1,6 +1,7 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
  Copyright (C) 1997 Eibe Frank
+ Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -22,8 +23,9 @@ package info.sequitur;
 public class Terminal extends Symbol implements Cloneable
 {
 
-	Terminal(int theValue)
+	Terminal(Sequitur sequitur, int theValue)
 	{
+		super(sequitur);
 		value = theValue;
 		p = null;
 		n = null;
@@ -31,7 +33,7 @@ public class Terminal extends Symbol implements Cloneable
 
 	public void cleanUp()
 	{
-		join(p, n);
+		sequitur.join(p, n);
 		deleteDigram();
 	}
 }

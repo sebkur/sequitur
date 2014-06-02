@@ -1,6 +1,7 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
  Copyright (C) 1997 Eibe Frank
+ Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -19,46 +20,21 @@
 
 package info.sequitur;
 
-import java.util.Hashtable;
-
 public abstract class Symbol
 {
 
 	static final int numTerminals = 100000;
 
 	static final int prime = 2265539;
-	static Hashtable theDigrams = new Hashtable(Symbol.prime);
+
+	protected Sequitur sequitur;
 
 	public int value;
 	Symbol p, n;
 
-	/**
-	 * Links two symbols together, removing any old digram from the hash table.
-	 */
-
-	public static void join(Symbol left, Symbol right)
+	public Symbol(Sequitur sequitur)
 	{
-
-		if (left.n != null) {
-			left.deleteDigram();
-
-			// Bug fix (21.8.2012): included two if statements, adapted from
-			// sequitur_simple.cc, to deal with triples
-
-			if ((right.p != null) && (right.n != null)
-					&& right.value == right.p.value
-					&& right.value == right.n.value) {
-				theDigrams.put(right, right);
-			}
-
-			if ((left.p != null) && (left.n != null)
-					&& left.value == left.n.value && left.value == left.p.value) {
-				theDigrams.put(left.p, left.p);
-			}
-		}
-
-		left.n = right;
-		right.p = left;
+		this.sequitur = sequitur;
 	}
 
 	/**
@@ -73,8 +49,8 @@ public abstract class Symbol
 
 	public void insertAfter(Symbol toInsert)
 	{
-		join(toInsert, n);
-		join(this, toInsert);
+		sequitur.join(toInsert, n);
+		sequitur.join(this, toInsert);
 	}
 
 	/**
@@ -88,13 +64,14 @@ public abstract class Symbol
 
 		if (n.isGuard())
 			return;
-		dummy = (Symbol) theDigrams.get(this);
+		dummy = sequitur.getDigrams().get(this);
 
 		// Only delete digram if its exactly
 		// the stored one.
 
-		if (dummy == this)
-			theDigrams.remove(this);
+		if (dummy == this) {
+			sequitur.getDigrams().remove(this);
+		}
 	}
 
 	/**
@@ -129,11 +106,11 @@ public abstract class Symbol
 
 		if (n.isGuard())
 			return false;
-		if (!theDigrams.containsKey(this)) {
-			found = (Symbol) theDigrams.put(this, this);
+		if (!sequitur.getDigrams().containsKey(this)) {
+			found = sequitur.getDigrams().put(this, this);
 			return false;
 		}
-		found = (Symbol) theDigrams.get(this);
+		found = sequitur.getDigrams().get(this);
 		if (found.n != this)
 			match(this, found);
 		return true;
@@ -147,7 +124,7 @@ public abstract class Symbol
 	{
 		cleanUp();
 		n.cleanUp();
-		p.insertAfter(new NonTerminal(r));
+		p.insertAfter(new NonTerminal(sequitur, r));
 		if (!p.check())
 			p.n.check();
 	}
@@ -172,7 +149,7 @@ public abstract class Symbol
 
 			// create a new rule
 
-			r = new Rule();
+			r = new Rule(sequitur);
 			try {
 				first = (Symbol) newD.clone();
 				second = (Symbol) newD.n.clone();
@@ -189,7 +166,7 @@ public abstract class Symbol
 				// Bug fix (21.8.2012): moved the following line
 				// to occur after substitutions (see sequitur_simple.cc)
 
-				theDigrams.put(first, first);
+				sequitur.getDigrams().put(first, first);
 			} catch (CloneNotSupportedException c) {
 				c.printStackTrace();
 			}

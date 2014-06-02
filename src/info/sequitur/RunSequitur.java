@@ -25,7 +25,7 @@ public class RunSequitur
 {
 	public static void main(String[] args)
 	{
-		Sequitur sequitur = new Sequitur();
+		SequiturPanel sequitur = new SequiturPanel();
 		JFrame frame = new JFrame("Sequitur");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(sequitur);
