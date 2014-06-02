@@ -24,23 +24,36 @@ import info.sequitur.util.NamingOrder;
 import info.sequitur.util.NamingStrategy;
 import info.sequitur.util.RulePrinter;
 
-public class RunSequitur
+public class RunSequiturStepwise
 {
 	public static void main(String[] args)
 	{
 		if (args.length < 1) {
-			System.out.println("usage: " + RunSequitur.class.getSimpleName()
-					+ " <input>");
+			System.out.println("usage: "
+					+ RunSequiturStepwise.class.getSimpleName() + " <input>");
 			System.exit(1);
 		}
 
 		String input = args[0];
 
 		Sequitur sequitur = new Sequitur();
-		sequitur.process(input);
-		RulePrinter printer = new RulePrinter(sequitur,
-				NamingStrategy.USE_LETTERS_START_WITH_S,
-				NamingOrder.BY_CREATION);
-		System.out.println(printer.getText());
+
+		StringBuilder soFar = new StringBuilder();
+
+		for (int i = 0; i < input.length(); i++) {
+			char c = input.charAt(i);
+			soFar.append(c);
+
+			System.out.println("Next character: '" + c + "', processed: '"
+					+ soFar + "'");
+
+			sequitur.process(c);
+
+			RulePrinter printer = new RulePrinter(sequitur,
+					NamingStrategy.USE_LETTERS_START_WITH_S,
+					NamingOrder.BY_CREATION);
+			System.out.println(printer.getText());
+		}
+
 	}
 }
