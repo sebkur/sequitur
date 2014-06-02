@@ -21,7 +21,7 @@
 package info.sequitur.ui;
 
 import info.sequitur.algorithm.Sequitur;
-import info.sequitur.algorithm.SequiturUtil;
+import info.sequitur.util.SequiturUtil;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;

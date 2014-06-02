@@ -20,7 +20,7 @@
 package info.sequitur.cli;
 
 import info.sequitur.algorithm.Sequitur;
-import info.sequitur.algorithm.SequiturUtil;
+import info.sequitur.util.SequiturUtil;
 
 public class RunSequitur
 {

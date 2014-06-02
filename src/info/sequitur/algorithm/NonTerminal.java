@@ -35,6 +35,11 @@ public class NonTerminal extends Symbol implements Cloneable
 		n = null;
 	}
 
+	public Rule getRule()
+	{
+		return r;
+	}
+
 	/**
 	 * Extra cloning method necessary so that count in the corresponding rule is
 	 * increased.

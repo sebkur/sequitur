@@ -37,6 +37,21 @@ public abstract class Symbol
 		this.sequitur = sequitur;
 	}
 
+	public int getValue()
+	{
+		return value;
+	}
+
+	public Symbol getPrevious()
+	{
+		return p;
+	}
+
+	public Symbol getNext()
+	{
+		return n;
+	}
+
 	/**
 	 * Abstract method: cleans up for symbol deletion.
 	 */

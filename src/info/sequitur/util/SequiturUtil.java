@@ -18,7 +18,12 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur.algorithm;
+package info.sequitur.util;
+
+import info.sequitur.algorithm.NonTerminal;
+import info.sequitur.algorithm.Rule;
+import info.sequitur.algorithm.Sequitur;
+import info.sequitur.algorithm.Symbol;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +57,9 @@ public class SequiturUtil
 			text.append("\tR");
 			text.append(processedRules);
 			text.append(" -> ");
-			for (sym = currentRule.first(); (!sym.isGuard()); sym = sym.n) {
+			for (sym = currentRule.first(); (!sym.isGuard()); sym = sym.getNext()) {
 				if (sym.isNonTerminal()) {
-					referedTo = ((NonTerminal) sym).r;
+					referedTo = ((NonTerminal) sym).getRule();
 					if ((rules.size() > referedTo.index)
 							&& (rules.get(referedTo.index) == referedTo)) {
 						index = referedTo.index;
@@ -66,13 +71,14 @@ public class SequiturUtil
 					text.append('R');
 					text.append(index);
 				} else {
-					if (sym.value == ' ') {
+					int value = sym.getValue();
+					if (value == ' ') {
 						text.append('_');
 					} else {
-						if (sym.value == '\n') {
+						if (value == '\n') {
 							text.append("\\n");
 						} else {
-							text.append((char) sym.value);
+							text.append((char) value);
 						}
 					}
 				}
