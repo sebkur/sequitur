@@ -190,6 +190,15 @@ public abstract class Symbol
 		}
 	}
 
+	@Override
+	public String toString()
+	{
+		if (n == null) {
+			return "Symbol(" + value + "," + n + ")";
+		}
+		return "Symbol(" + value + "," + n.value + ")";
+	}
+
 	/**
 	 * Produce the hashcode for a digram.
 	 */
