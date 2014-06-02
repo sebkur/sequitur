@@ -19,12 +19,13 @@
 
 package info.sequitur.cli;
 
+import info.sequitur.algorithm.DebugCallback;
 import info.sequitur.algorithm.Sequitur;
 import info.sequitur.util.NamingOrder;
 import info.sequitur.util.NamingStrategy;
 import info.sequitur.util.RulePrinter;
 
-public class RunSequiturStepwise
+public class RunSequiturStepwise implements DebugCallback
 {
 	public static void main(String[] args)
 	{
@@ -36,8 +37,19 @@ public class RunSequiturStepwise
 
 		String input = args[0];
 
-		Sequitur sequitur = new Sequitur();
+		RunSequiturStepwise stepwise = new RunSequiturStepwise();
+		stepwise.execute(input);
+	}
 
+	private Sequitur sequitur;
+
+	public RunSequiturStepwise()
+	{
+		sequitur = new Sequitur(this);
+	}
+
+	private void execute(String input)
+	{
 		StringBuilder soFar = new StringBuilder();
 
 		for (int i = 0; i < input.length(); i++) {
@@ -48,12 +60,24 @@ public class RunSequiturStepwise
 					+ soFar + "'");
 
 			sequitur.process(c);
-
-			RulePrinter printer = new RulePrinter(sequitur,
-					NamingStrategy.USE_LETTERS_START_WITH_S,
-					NamingOrder.BY_CREATION);
-			System.out.println(printer.getText());
+			print();
 		}
+	}
 
+	private void print()
+	{
+		RulePrinter printer = new RulePrinter(sequitur,
+				NamingStrategy.USE_LETTERS_START_WITH_S,
+				NamingOrder.BY_CREATION);
+		System.out.println(printer.getText());
+	}
+
+	@Override
+	public void underusedRule()
+	{
+		print();
+
+		System.out.println("underused rule");
+		System.out.println();
 	}
 }

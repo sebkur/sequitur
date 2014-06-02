@@ -76,6 +76,8 @@ public class NonTerminal extends Symbol implements Cloneable
 
 	public void expand()
 	{
+		sequitur.emitUnderusedRule();
+
 		sequitur.join(p, r.first());
 		sequitur.join(r.last(), n);
 

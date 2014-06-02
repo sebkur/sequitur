@@ -33,6 +33,18 @@ public class Sequitur
 
 	private Rule firstRule = new Rule(this);
 
+	private DebugCallback debugCallback;
+
+	public Sequitur()
+	{
+		this(null);
+	}
+
+	public Sequitur(DebugCallback debugCallback)
+	{
+		this.debugCallback = debugCallback;
+	}
+
 	public void process(char c)
 	{
 		firstRule.last().insertAfter(new Terminal(this, c));
@@ -95,6 +107,13 @@ public class Sequitur
 	public Rule getFirstRule()
 	{
 		return firstRule;
+	}
+
+	public void emitUnderusedRule()
+	{
+		if (debugCallback != null) {
+			debugCallback.underusedRule();
+		}
 	}
 
 }
