@@ -42,55 +42,54 @@ public class SequiturUtil
 			NamingStrategy strategy)
 	{
 		List<Rule> rules = new ArrayList<Rule>(sequitur.getNumRules());
-		Rule currentRule;
-		Rule referedTo;
-		Symbol sym;
-		int index;
 		int processedRules = 0;
 		StringBuilder text = new StringBuilder();
 
 		text.append("Usage\tRule\n");
 		rules.add(sequitur.getFirstRule());
 		while (processedRules < rules.size()) {
-			currentRule = rules.get(processedRules);
-			text.append(" ");
-			text.append(currentRule.count);
-			text.append("\t");
-			text.append(name(processedRules, strategy));
-			text.append(" -> ");
-			for (sym = currentRule.first(); (!sym.isGuard()); sym = sym
-					.getNext()) {
-				if (sym.isNonTerminal()) {
-					referedTo = ((NonTerminal) sym).getRule();
-					if ((rules.size() > referedTo.index)
-							&& (rules.get(referedTo.index) == referedTo)) {
-						index = referedTo.index;
-					} else {
-						index = rules.size();
-						referedTo.index = index;
-						rules.add(referedTo);
-					}
-					text.append("[");
-					text.append(name(index, strategy));
-					text.append("]");
-				} else {
-					int value = sym.getValue();
-					if (value == ' ') {
-						text.append('_');
-					} else {
-						if (value == '\n') {
-							text.append("\\n");
-						} else {
-							text.append((char) value);
-						}
-					}
-				}
-				text.append(' ');
-			}
-			text.append('\n');
+			Rule currentRule = rules.get(processedRules);
+			appendRow(text, rules, currentRule, processedRules, strategy);
 			processedRules++;
 		}
 		return text.toString();
+	}
+
+	private static void appendRow(StringBuilder text, List<Rule> rules,
+			Rule currentRule, int processedRules, NamingStrategy strategy)
+	{
+		text.append(" ");
+		text.append(currentRule.count);
+		text.append("\t");
+		text.append(name(currentRule.number, strategy));
+		text.append(" -> ");
+		for (Symbol sym = currentRule.first(); (!sym.isGuard()); sym = sym
+				.getNext()) {
+			if (sym.isNonTerminal()) {
+				Rule referedTo = ((NonTerminal) sym).getRule();
+				if ((rules.size() <= referedTo.index)
+						|| (rules.get(referedTo.index) != referedTo)) {
+					referedTo.index = rules.size();
+					rules.add(referedTo);
+				}
+				text.append("[");
+				text.append(name(referedTo.number, strategy));
+				text.append("]");
+			} else {
+				int value = sym.getValue();
+				if (value == ' ') {
+					text.append('_');
+				} else {
+					if (value == '\n') {
+						text.append("\\n");
+					} else {
+						text.append((char) value);
+					}
+				}
+			}
+			text.append(' ');
+		}
+		text.append('\n');
 	}
 
 	private static String name(int index, NamingStrategy strategy)
