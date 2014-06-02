@@ -34,7 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 
-public class SequiturPanel extends JPanel
+public class InteractiveSequiturPanel extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
@@ -46,7 +46,7 @@ public class SequiturPanel extends JPanel
 	private Font f1 = new Font("TimesRoman", Font.BOLD, 18);
 	private Font f2 = new Font("TimesRoman", Font.PLAIN, 12);
 
-	public SequiturPanel()
+	public InteractiveSequiturPanel()
 	{
 		String defaultText = new String(
 				"pease porridge hot,\npease porridge cold,\npease porridge in the pot,\nnine days old.\n\nsome like it hot,\nsome like it cold,\nsome like it in the pot,\nnine days old.\n");

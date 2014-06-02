@@ -2,4 +2,4 @@
 
 DIR=`dirname $0`
 
-$DIR/sequitur info.sequitur.ui.InteractiveSequitur "$@"
+$DIR/sequitur info.sequitur.ui.RunInteractiveSequitur "$@"

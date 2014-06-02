@@ -21,11 +21,11 @@ package info.sequitur.ui;
 
 import javax.swing.JFrame;
 
-public class InteractiveSequitur
+public class RunInteractiveSequitur
 {
 	public static void main(String[] args)
 	{
-		SequiturPanel sequitur = new SequiturPanel();
+		InteractiveSequiturPanel sequitur = new InteractiveSequiturPanel();
 		JFrame frame = new JFrame("Sequitur");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(sequitur);
