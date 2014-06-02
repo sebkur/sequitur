@@ -62,12 +62,19 @@ public class Model implements DebugCallback
 			actions.add(new ArrayList<State>());
 		}
 
+		if (length == 0) {
+			return;
+		}
+
 		sequitur = new Sequitur(this);
 		currentAction = actions.get(0);
-		pushSimple("Init");
+		pushSimple("Initialisierung");
 		for (int i = 0; i < length; i++) {
 			currentAction = actions.get(i);
 			sequitur.process(input.charAt(i));
+			if (i == 0) {
+				pushSimple("Erstes Zeichen");
+			}
 		}
 
 		// System.out.println("sizes:");
@@ -139,9 +146,10 @@ public class Model implements DebugCallback
 	}
 
 	@Override
-	public void preCreateRule()
+	public void preCreateRule(Rule rule)
 	{
-		pushSimple("Erstelle Produktion");
+		RulePrinter printer = createPrinter();
+		pushSimple("Erstelle Produktion: " + printer.getProduction(rule));
 	}
 
 	@Override
@@ -158,6 +166,13 @@ public class Model implements DebugCallback
 
 	@Override
 	public void createRule(Rule rule)
+	{
+		RulePrinter printer = createPrinter();
+		pushSimple("Erstelle Produktion: " + printer.getProduction(rule));
+	}
+
+	@Override
+	public void postCreateRule(Rule rule)
 	{
 		RulePrinter printer = createPrinter();
 		pushSimple("Erstelle Produktion: " + printer.getProduction(rule));
@@ -218,7 +233,7 @@ public class Model implements DebugCallback
 
 	public State getCurrentState()
 	{
-		System.out.println(currentChar + "," + currentStep);
 		return currentAction.get(currentStep);
 	}
+
 }

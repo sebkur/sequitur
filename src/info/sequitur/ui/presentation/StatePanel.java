@@ -97,14 +97,19 @@ public class StatePanel extends JPanel implements ModelChangeListener
 	@Override
 	public void modelChanged()
 	{
+		if (model.getLength() == 0) {
+			fieldMessage.setText("");
+			areaGrammer.setText("");
+			areaDigrams.setText("");
+			return;
+		}
 		State state = model.getCurrentState();
 		areaGrammer.setText(state.table);
-		areaDigrams.setText(state.digrams);
+		areaDigrams.setText("Bigramm-Index\n" + state.digrams);
 
 		if (state instanceof SimpleState) {
 			SimpleState simple = (SimpleState) state;
 			fieldMessage.setText(simple.message);
 		}
 	}
-
 }

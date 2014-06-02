@@ -181,7 +181,6 @@ public abstract class Symbol
 		} else {
 			// create a new rule
 
-			sequitur.emitPreCreateRule();
 			r = new Rule(sequitur);
 			try {
 				Symbol first = (Symbol) newD.clone();
@@ -193,6 +192,7 @@ public abstract class Symbol
 				second.n = r.guard;
 				r.guard.p = second;
 
+				sequitur.emitPreCreateRule(r);
 				matching.substitute(r);
 				newD.substitute(r);
 				sequitur.emitCreateRule(r);
@@ -205,6 +205,7 @@ public abstract class Symbol
 				// to occur after substitutions (see sequitur_simple.cc)
 
 				sequitur.getDigrams().put(first, first);
+				sequitur.emitPostCreateRule(r);
 			} catch (CloneNotSupportedException c) {
 				c.printStackTrace();
 			}

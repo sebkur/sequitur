@@ -101,7 +101,7 @@ public class RunSequiturStepwise implements DebugCallback
 	}
 
 	@Override
-	public void preCreateRule()
+	public void preCreateRule(Rule rule)
 	{
 		// ignore
 	}
@@ -148,6 +148,12 @@ public class RunSequiturStepwise implements DebugCallback
 	public void digramNotFound()
 	{
 		System.out.println(" > Digram not found");
+	}
+
+	@Override
+	public void postCreateRule(Rule rule)
+	{
+		// ignore
 	}
 
 }

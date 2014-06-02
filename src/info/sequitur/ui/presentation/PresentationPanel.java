@@ -47,7 +47,7 @@ public class PresentationPanel extends JPanel
 
 	public PresentationPanel()
 	{
-		input = new JTextField("abcdbcabcdbc");
+		input = new JTextField("dabcdbcabcdbcbc");
 		input.setFont(input.getFont().deriveFont(20f));
 		state = new StatePanel();
 
@@ -155,6 +155,7 @@ public class PresentationPanel extends JPanel
 	{
 		if (!prevStep()) {
 			prevChar();
+			lastStep();
 		}
 	}
 
@@ -190,6 +191,11 @@ public class PresentationPanel extends JPanel
 			return true;
 		}
 		return false;
+	}
+
+	protected void lastStep()
+	{
+		model.setCurrentStep(model.getCurrentNumberOfSteps() - 1);
 	}
 
 	protected boolean nextStep()

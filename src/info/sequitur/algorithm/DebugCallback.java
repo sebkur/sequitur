@@ -25,7 +25,7 @@ public interface DebugCallback
 
 	public void digramNotFound();
 
-	public void preCreateRule();
+	public void preCreateRule(Rule rule);
 
 	public void preReuseRule(Rule rule);
 
@@ -36,5 +36,7 @@ public interface DebugCallback
 	public void preUnderusedRule(NonTerminal nonTerminal);
 
 	public void underusedRule(NonTerminal nonTerminal);
+
+	public void postCreateRule(Rule rule);
 
 }

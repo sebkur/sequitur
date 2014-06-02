@@ -127,10 +127,10 @@ public class Sequitur
 		}
 	}
 
-	void emitPreCreateRule()
+	void emitPreCreateRule(Rule rule)
 	{
 		if (debugCallback != null) {
-			debugCallback.preCreateRule();
+			debugCallback.preCreateRule(rule);
 		}
 	}
 
@@ -166,6 +166,13 @@ public class Sequitur
 	{
 		if (debugCallback != null) {
 			debugCallback.reuseRule(rule);
+		}
+	}
+
+	void emitPostCreateRule(Rule rule)
+	{
+		if (debugCallback != null) {
+			debugCallback.postCreateRule(rule);
 		}
 	}
 
