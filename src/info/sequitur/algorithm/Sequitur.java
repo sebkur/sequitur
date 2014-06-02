@@ -45,6 +45,11 @@ public class Sequitur
 		this.debugCallback = debugCallback;
 	}
 
+	public void setDebugCallback(DebugCallback debugCallback)
+	{
+		this.debugCallback = debugCallback;
+	}
+
 	public void process(char c)
 	{
 		firstRule.last().insertAfter(new Terminal(this, c));

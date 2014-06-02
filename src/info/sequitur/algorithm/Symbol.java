@@ -237,7 +237,12 @@ public abstract class Symbol
 		// Values in linear combination with two
 		// prime numbers.
 
-		long code = ((21599 * (long) value) + (20507 * (long) n.value));
+		long code;
+		if (n == null) {
+			code = ((21599 * (long) value));
+		} else {
+			code = ((21599 * (long) value) + (20507 * (long) n.value));
+		}
 		code = code % prime;
 		return (int) code;
 	}
@@ -249,6 +254,16 @@ public abstract class Symbol
 	@Override
 	public boolean equals(Object obj)
 	{
-		return ((value == ((Symbol) obj).value) && (n.value == ((Symbol) obj).n.value));
+		Symbol o = (Symbol) obj;
+		if (value != o.value) {
+			return false;
+		}
+		if (n == null && o.n == null) {
+			return true;
+		}
+		if (n != null && o.n != null) {
+			return n.value == o.n.value;
+		}
+		return false;
 	}
 }
