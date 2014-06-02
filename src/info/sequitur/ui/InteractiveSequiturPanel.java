@@ -44,8 +44,8 @@ public class InteractiveSequiturPanel extends JPanel
 	private JTextArea rules;
 	private JLabel dataLabel;
 	private JLabel rulesLabel;
-	private Font f1 = new Font("TimesRoman", Font.BOLD, 18);
-	private Font f2 = new Font("TimesRoman", Font.PLAIN, 12);
+	private Font f1 = new Font("TimesRoman", Font.BOLD, 20);
+	private Font f2 = new Font("TimesRoman", Font.PLAIN, 20);
 
 	public InteractiveSequiturPanel()
 	{
