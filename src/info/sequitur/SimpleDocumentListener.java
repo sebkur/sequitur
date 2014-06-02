@@ -19,17 +19,30 @@
 
 package info.sequitur;
 
-import javax.swing.JFrame;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-public class RunSequitur
+public abstract class SimpleDocumentListener implements DocumentListener
 {
-	public static void main(String[] args)
+
+	@Override
+	public void insertUpdate(DocumentEvent e)
 	{
-		Sequitur sequitur = new Sequitur();
-		JFrame frame = new JFrame("Sequitur");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(sequitur);
-		frame.setSize(800, 600);
-		frame.setVisible(true);
+		someUpdate(e);
 	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e)
+	{
+		someUpdate(e);
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e)
+	{
+		someUpdate(e);
+	}
+
+	public abstract void someUpdate(DocumentEvent e);
+
 }
