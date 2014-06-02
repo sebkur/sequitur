@@ -48,7 +48,7 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 
 	public PresentationPanel()
 	{
-		input = new JTextField("dabcdbcabcdbcbc");
+		input = new JTextField("dabcdbcabcdbcbca");
 		input.setFont(input.getFont().deriveFont(20f));
 		state = new StatePanel();
 
@@ -228,9 +228,10 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 	public void modelChanged()
 	{
 		int cc = model.getCurrentChar();
+		int cs = model.getCurrentStep();
+
 		bgChar.getPrevious().setEnabled(cc > 0);
 		bgChar.getNext().setEnabled(cc < model.getLength() - 1);
-		int cs = model.getCurrentStep();
 		bgStep.getPrevious().setEnabled(cs > 0);
 		bgStep.getNext().setEnabled(cs < model.getCurrentNumberOfSteps() - 1);
 		bgUni.getPrevious().setEnabled(cc > 0 || cs > 0);

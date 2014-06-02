@@ -175,7 +175,8 @@ public class Model implements DebugCallback
 	public void postCreateRule(Rule rule)
 	{
 		RulePrinter printer = createPrinter();
-		pushSimple("Erstelle Produktion: " + printer.getProduction(rule));
+		pushSimple(printer.getProduction(rule)
+				+ ", rechte Seite -> Bigramm-Index");
 	}
 
 	@Override
@@ -192,6 +193,11 @@ public class Model implements DebugCallback
 		RulePrinter printer = createPrinter();
 		pushSimple("Unterverwendete Produktion eliminiert: "
 				+ printer.getName(nonTerminal.getRule()));
+	}
+
+	public String getInput()
+	{
+		return input;
 	}
 
 	public Sequitur getCurrentSequitur()
