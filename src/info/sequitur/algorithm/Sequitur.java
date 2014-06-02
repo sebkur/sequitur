@@ -25,31 +25,26 @@ import java.util.Hashtable;
 public class Sequitur
 {
 
-	public static Rule run(String input)
-	{
-		Sequitur sequitur = new Sequitur();
-		return sequitur.reallyRun(input);
-	}
-
 	// The total number of rules.
 	private int numRules = 0;
 	// The hash table for the digrams
 	private Hashtable<Symbol, Symbol> theDigrams = new Hashtable<Symbol, Symbol>(
 			Symbol.prime);
 
-	private Rule reallyRun(String input)
+	private Rule firstRule = new Rule(this);
+
+	public void process(char c)
 	{
-		Rule firstRule = new Rule(this);
+		firstRule.last().insertAfter(new Terminal(this, c));
+		firstRule.last().p.check();
+	}
 
-		// Reset number of rules and Hashtable.
-
-		numRules = 0;
-		theDigrams.clear();
+	public void process(String input)
+	{
 		for (int i = 0; i < input.length(); i++) {
 			firstRule.last().insertAfter(new Terminal(this, input.charAt(i)));
 			firstRule.last().p.check();
 		}
-		return firstRule;
 	}
 
 	/**
@@ -93,6 +88,11 @@ public class Sequitur
 	public Hashtable<Symbol, Symbol> getDigrams()
 	{
 		return theDigrams;
+	}
+
+	public Rule getFirstRule()
+	{
+		return firstRule;
 	}
 
 }

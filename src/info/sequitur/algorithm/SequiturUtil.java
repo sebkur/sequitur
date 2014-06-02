@@ -17,25 +17,15 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur.cli;
+package info.sequitur.algorithm;
 
-import info.sequitur.algorithm.Rule;
-import info.sequitur.algorithm.Sequitur;
-import info.sequitur.algorithm.SequiturUtil;
-
-public class RunSequitur
+public class SequiturUtil
 {
-	public static void main(String[] args)
+
+	public static Rule run(String input)
 	{
-		if (args.length < 1) {
-			System.out.println("usage: " + Sequitur.class.getSimpleName()
-					+ " <input>");
-			System.exit(1);
-		}
-
-		String input = args[0];
-
-		Rule rule = SequiturUtil.run(input);
-		System.out.println(rule.getRules());
+		Sequitur sequitur = new Sequitur();
+		sequitur.process(input);
+		return sequitur.getFirstRule();
 	}
 }
