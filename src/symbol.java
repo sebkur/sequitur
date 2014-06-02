@@ -15,212 +15,214 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
 
 import java.util.Hashtable;
 
-public abstract class symbol{
+public abstract class symbol
+{
 
-  static final int numTerminals = 100000;
+	static final int numTerminals = 100000;
 
-  static final int prime = 2265539;
-  static Hashtable theDigrams = new Hashtable(symbol.prime);
-  
-  public int value;
-  symbol p,n;
-  
-  /**
-   * Links two symbols together, removing any old
-   * digram from the hash table.
-   */
-  
-  public static void join(symbol left, symbol right){
+	static final int prime = 2265539;
+	static Hashtable theDigrams = new Hashtable(symbol.prime);
 
-    if (left.n != null)  {
-      left.deleteDigram();
+	public int value;
+	symbol p, n;
 
-      // Bug fix (21.8.2012): included two if statements, adapted from
-      // sequitur_simple.cc, to deal with triples
-      
-      if ((right.p != null) && (right.n != null) &&
-          right.value == right.p.value &&
-          right.value == right.n.value) {
-        theDigrams.put(right, right);
-      }
-      
-      if ((left.p != null) && (left.n != null) &&
-          left.value == left.n.value &&
-          left.value == left.p.value) {
-        theDigrams.put(left.p, left.p);
-      }
-    }
+	/**
+	 * Links two symbols together, removing any old digram from the hash table.
+	 */
 
-    left.n = right;
-    right.p = left;
-  }
+	public static void join(symbol left, symbol right)
+	{
 
-  /**
-   * Abstract method: cleans up for symbol deletion.
-   */
+		if (left.n != null) {
+			left.deleteDigram();
 
-  public abstract void cleanUp();
+			// Bug fix (21.8.2012): included two if statements, adapted from
+			// sequitur_simple.cc, to deal with triples
 
-  /**
-   * Inserts a symbol after this one.
-   */
+			if ((right.p != null) && (right.n != null)
+					&& right.value == right.p.value
+					&& right.value == right.n.value) {
+				theDigrams.put(right, right);
+			}
 
-  public void insertAfter(symbol toInsert){
-    join(toInsert,n);
-    join(this,toInsert);
-  }
+			if ((left.p != null) && (left.n != null)
+					&& left.value == left.n.value && left.value == left.p.value) {
+				theDigrams.put(left.p, left.p);
+			}
+		}
 
-  /**
-   * Removes the digram from the hash table.
-   * Overwritten in sub class guard.
-   */
+		left.n = right;
+		right.p = left;
+	}
 
-  public void deleteDigram(){
-    
-    symbol dummy;
+	/**
+	 * Abstract method: cleans up for symbol deletion.
+	 */
 
-    if (n.isGuard())
-      return;
-    dummy = (symbol)theDigrams.get(this);
+	public abstract void cleanUp();
 
-    // Only delete digram if its exactly
-    // the stored one.
+	/**
+	 * Inserts a symbol after this one.
+	 */
 
-    if (dummy == this)
-      theDigrams.remove(this);
-  }
+	public void insertAfter(symbol toInsert)
+	{
+		join(toInsert, n);
+		join(this, toInsert);
+	}
 
-  /**
-   * Returns true if this is the guard symbol.
-   * Overwritten in subclass guard.
-   */
+	/**
+	 * Removes the digram from the hash table. Overwritten in sub class guard.
+	 */
 
-  public boolean isGuard(){
-    return false;
-  }
+	public void deleteDigram()
+	{
 
-  /**
-   * Returns true if this is a non-terminal.
-   * Overwritten in subclass nonTerminal.
-   */
+		symbol dummy;
 
-  public boolean isNonTerminal(){
-    return false;
-  }
+		if (n.isGuard())
+			return;
+		dummy = (symbol) theDigrams.get(this);
 
-  /**
-   * Checks a new digram. If it appears
-   * elsewhere, deals with it by calling
-   * match(), otherwise inserts it into the
-   * hash table.
-   * Overwritten in subclass guard.
-   */
+		// Only delete digram if its exactly
+		// the stored one.
 
-  public boolean check(){
-    
-    symbol found;
+		if (dummy == this)
+			theDigrams.remove(this);
+	}
 
-    if (n.isGuard())
-      return false;
-    if (!theDigrams.containsKey(this)){
-      found = (symbol)theDigrams.put(this,this);
-      return false;
-    }
-    found = (symbol)theDigrams.get(this);
-    if (found.n != this)
-      match(this,found);
-    return true;
-  }
+	/**
+	 * Returns true if this is the guard symbol. Overwritten in subclass guard.
+	 */
 
-  /**
-   * Replace a digram with a non-terminal.
-   */
+	public boolean isGuard()
+	{
+		return false;
+	}
 
-  public void substitute(rule r){
-    cleanUp();
-    n.cleanUp();
-    p.insertAfter(new nonTerminal(r));
-    if (!p.check())
-      p.n.check();
-  }
+	/**
+	 * Returns true if this is a non-terminal. Overwritten in subclass
+	 * nonTerminal.
+	 */
 
-  /**
-   * Deal with a matching digram.
-   */
-  
-  public void match(symbol newD,symbol matching){
-    
-    rule r;
-    symbol first,second,dummy;
-    
-    if (matching.p.isGuard() && 
-        matching.n.n.isGuard()){
-      
-      // reuse an existing rule
-      
-      r = ((guard)matching.p).r;
-      newD.substitute(r);
-    }else{
-      
-      // create a new rule
-      
-      r = new rule();
-      try{
-        first = (symbol)newD.clone();
-        second = (symbol)newD.n.clone();
-        r.theGuard.n = first;
-        first.p = r.theGuard;
-        first.n = second;
-        second.p = first;
-        second.n = r.theGuard;
-        r.theGuard.p = second;
+	public boolean isNonTerminal()
+	{
+		return false;
+	}
 
-        matching.substitute(r);
-        newD.substitute(r);
+	/**
+	 * Checks a new digram. If it appears elsewhere, deals with it by calling
+	 * match(), otherwise inserts it into the hash table. Overwritten in
+	 * subclass guard.
+	 */
 
-        // Bug fix (21.8.2012): moved the following line
-        // to occur after substitutions (see sequitur_simple.cc)
-        
-        theDigrams.put(first,first);
-      }catch (CloneNotSupportedException c){
-        c.printStackTrace();
-      }
-    }
-    
-    // Check for an underused rule.
-    
-    if (r.first().isNonTerminal() && 
-        (((nonTerminal)r.first()).r.count == 1))
-      ((nonTerminal)r.first()).expand();
-  }
-  
-  /**
-   * Produce the hashcode for a digram.
-   */
+	public boolean check()
+	{
 
-  public int hashCode(){
-    
-    long code;
+		symbol found;
 
-    // Values in linear combination with two
-    // prime numbers.
+		if (n.isGuard())
+			return false;
+		if (!theDigrams.containsKey(this)) {
+			found = (symbol) theDigrams.put(this, this);
+			return false;
+		}
+		found = (symbol) theDigrams.get(this);
+		if (found.n != this)
+			match(this, found);
+		return true;
+	}
 
-    code = ((21599*(long)value)+(20507*(long)n.value));
-    code = code%(long)prime;
-    return (int)code;
-  }
+	/**
+	 * Replace a digram with a non-terminal.
+	 */
 
-  /**
-   * Test if two digrams are equal.
-   * WARNING: don't use to compare two symbols.
-   */
+	public void substitute(rule r)
+	{
+		cleanUp();
+		n.cleanUp();
+		p.insertAfter(new nonTerminal(r));
+		if (!p.check())
+			p.n.check();
+	}
 
-  public boolean equals(Object obj){
-    return ((value == ((symbol)obj).value) &&
-            (n.value == ((symbol)obj).n.value));
-  }
+	/**
+	 * Deal with a matching digram.
+	 */
+
+	public void match(symbol newD, symbol matching)
+	{
+
+		rule r;
+		symbol first, second, dummy;
+
+		if (matching.p.isGuard() && matching.n.n.isGuard()) {
+
+			// reuse an existing rule
+
+			r = ((guard) matching.p).r;
+			newD.substitute(r);
+		} else {
+
+			// create a new rule
+
+			r = new rule();
+			try {
+				first = (symbol) newD.clone();
+				second = (symbol) newD.n.clone();
+				r.theGuard.n = first;
+				first.p = r.theGuard;
+				first.n = second;
+				second.p = first;
+				second.n = r.theGuard;
+				r.theGuard.p = second;
+
+				matching.substitute(r);
+				newD.substitute(r);
+
+				// Bug fix (21.8.2012): moved the following line
+				// to occur after substitutions (see sequitur_simple.cc)
+
+				theDigrams.put(first, first);
+			} catch (CloneNotSupportedException c) {
+				c.printStackTrace();
+			}
+		}
+
+		// Check for an underused rule.
+
+		if (r.first().isNonTerminal()
+				&& (((nonTerminal) r.first()).r.count == 1))
+			((nonTerminal) r.first()).expand();
+	}
+
+	/**
+	 * Produce the hashcode for a digram.
+	 */
+
+	public int hashCode()
+	{
+
+		long code;
+
+		// Values in linear combination with two
+		// prime numbers.
+
+		code = ((21599 * (long) value) + (20507 * (long) n.value));
+		code = code % (long) prime;
+		return (int) code;
+	}
+
+	/**
+	 * Test if two digrams are equal. WARNING: don't use to compare two symbols.
+	 */
+
+	public boolean equals(Object obj)
+	{
+		return ((value == ((symbol) obj).value) && (n.value == ((symbol) obj).n.value));
+	}
 }

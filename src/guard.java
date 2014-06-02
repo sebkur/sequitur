@@ -15,33 +15,39 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
 
-public class guard extends symbol{
+public class guard extends symbol
+{
 
-  rule r;
+	rule r;
 
-  guard(rule theRule){
-    r = theRule;
-    value = 0;
-    p = this;
-    n = this;
-  }
+	guard(rule theRule)
+	{
+		r = theRule;
+		value = 0;
+		p = this;
+		n = this;
+	}
 
-  public void cleanUp(){
-    join(p,n);
-  }
+	public void cleanUp()
+	{
+		join(p, n);
+	}
 
-  public boolean isGuard(){
-    return true;
-  }
+	public boolean isGuard()
+	{
+		return true;
+	}
 
-  public void deleteDigram(){
-    
-    // Do nothing
-  }
-  
-  public boolean check(){
-    return false;
-  }
+	public void deleteDigram()
+	{
+
+		// Do nothing
+	}
+
+	public boolean check()
+	{
+		return false;
+	}
 }
