@@ -94,34 +94,9 @@ public class RulePrinter
 		}
 	}
 
-	private void appendRow(StringBuilder text, Rule currentRule)
+	public String getText()
 	{
-		text.append(" ");
-		text.append(currentRule.count);
-		text.append("\t");
-		text.append(getName(currentRule));
-		text.append(" -> ");
-		for (Symbol sym = currentRule.first(); (!sym.isGuard()); sym = sym
-				.getNext()) {
-			if (sym.isNonTerminal()) {
-				Rule referedTo = ((NonTerminal) sym).getRule();
-				text.append("[");
-				text.append(getName(referedTo));
-				text.append("]");
-			} else {
-				int value = sym.getValue();
-				if (value == ' ') {
-					text.append('_');
-				} else {
-					if (value == '\n') {
-						text.append("\\n");
-					} else {
-						text.append((char) value);
-					}
-				}
-			}
-			text.append(' ');
-		}
+		return text.toString();
 	}
 
 	public String getName(Rule rule)
@@ -170,8 +145,58 @@ public class RulePrinter
 		}
 	}
 
-	public String getText()
+	public String getRightSide(Rule rule)
 	{
+		StringBuilder text = new StringBuilder();
+		createRightSide(text, rule);
 		return text.toString();
+	}
+
+	public String getSymbol(Symbol symbol)
+	{
+		StringBuilder text = new StringBuilder();
+		appendSymbol(text, symbol);
+		return text.toString();
+	}
+
+	private void appendRow(StringBuilder text, Rule currentRule)
+	{
+		text.append(" ");
+		text.append(currentRule.count);
+		text.append("\t");
+		text.append(getName(currentRule));
+		text.append(" -> ");
+		createRightSide(text, currentRule);
+	}
+
+	private void createRightSide(StringBuilder text, Rule rule)
+	{
+		for (Symbol sym = rule.first(); (!sym.isGuard()); sym = sym.getNext()) {
+			appendSymbol(text, sym);
+			text.append(' ');
+		}
+	}
+
+	private void appendSymbol(StringBuilder text, Symbol symbol)
+	{
+		if (symbol.isNonTerminal()) {
+			Rule referedTo = ((NonTerminal) symbol).getRule();
+			text.append("[");
+			text.append(getName(referedTo));
+			text.append("]");
+		} else if (symbol.isGuard()) {
+			text.append("$guard$");
+		} else {
+			int value = symbol.getValue();
+			if (value == ' ') {
+				text.append('_');
+			} else {
+				if (value == '\n') {
+					text.append("\\n");
+				} else {
+					text.append((char) value);
+				}
+			}
+		}
 	}
 }

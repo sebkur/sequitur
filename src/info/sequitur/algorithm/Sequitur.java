@@ -48,14 +48,17 @@ public class Sequitur
 	public void process(char c)
 	{
 		firstRule.last().insertAfter(new Terminal(this, c));
-		firstRule.last().p.check();
+		emitLookForDigram(firstRule.last().p);
+		boolean check = firstRule.last().p.check();
+		if (!check) {
+			emitDigramNotFound();
+		}
 	}
 
 	public void process(String input)
 	{
 		for (int i = 0; i < input.length(); i++) {
-			firstRule.last().insertAfter(new Terminal(this, input.charAt(i)));
-			firstRule.last().p.check();
+			process(input.charAt(i));
 		}
 	}
 
@@ -107,6 +110,41 @@ public class Sequitur
 	public Rule getFirstRule()
 	{
 		return firstRule;
+	}
+
+	private void emitLookForDigram(Symbol symbol)
+	{
+		if (debugCallback != null) {
+			debugCallback.lookForDigram(symbol);
+		}
+	}
+
+	private void emitDigramNotFound()
+	{
+		if (debugCallback != null) {
+			debugCallback.digramNotFound();
+		}
+	}
+
+	public void emitPreNewRule()
+	{
+		if (debugCallback != null) {
+			debugCallback.preCreateRule();
+		}
+	}
+
+	public void emitNewRule(Rule rule)
+	{
+		if (debugCallback != null) {
+			debugCallback.createRule(rule);
+		}
+	}
+
+	public void emitPreUnderusedRule(NonTerminal nonTerminal)
+	{
+		if (debugCallback != null) {
+			debugCallback.preUnderusedRule(nonTerminal);
+		}
 	}
 
 	public void emitUnderusedRule(NonTerminal nonTerminal)

@@ -21,6 +21,15 @@ package info.sequitur.algorithm;
 
 public interface DebugCallback
 {
+	public void lookForDigram(Symbol symbol);
+
+	public void digramNotFound();
+
+	public void preCreateRule();
+
+	public void createRule(Rule rule);
+
+	public void preUnderusedRule(NonTerminal nonTerminal);
 
 	public void underusedRule(NonTerminal nonTerminal);
 

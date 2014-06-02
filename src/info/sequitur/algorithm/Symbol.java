@@ -162,6 +162,7 @@ public abstract class Symbol
 		} else {
 			// create a new rule
 
+			sequitur.emitPreNewRule();
 			r = new Rule(sequitur);
 			try {
 				Symbol first = (Symbol) newD.clone();
@@ -183,6 +184,7 @@ public abstract class Symbol
 			} catch (CloneNotSupportedException c) {
 				c.printStackTrace();
 			}
+			sequitur.emitNewRule(r);
 		}
 
 		// Check for an underused rule.

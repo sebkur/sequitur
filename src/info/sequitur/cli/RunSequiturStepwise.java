@@ -21,7 +21,9 @@ package info.sequitur.cli;
 
 import info.sequitur.algorithm.DebugCallback;
 import info.sequitur.algorithm.NonTerminal;
+import info.sequitur.algorithm.Rule;
 import info.sequitur.algorithm.Sequitur;
+import info.sequitur.algorithm.Symbol;
 import info.sequitur.util.NamingOrder;
 import info.sequitur.util.NamingStrategy;
 import info.sequitur.util.RulePrinter;
@@ -49,6 +51,8 @@ public class RunSequiturStepwise implements DebugCallback
 		sequitur = new Sequitur(this);
 	}
 
+	String headline = "********************************************************************************";
+
 	private void execute(String input)
 	{
 		StringBuilder soFar = new StringBuilder();
@@ -57,11 +61,12 @@ public class RunSequiturStepwise implements DebugCallback
 			char c = input.charAt(i);
 			soFar.append(c);
 
+			System.out.println(headline);
 			System.out.println("Next character: '" + c + "', processed: '"
 					+ soFar + "'");
+			System.out.println(headline);
 
 			sequitur.process(c);
-			print();
 		}
 	}
 
@@ -73,22 +78,59 @@ public class RunSequiturStepwise implements DebugCallback
 		return printer;
 	}
 
-	private void print()
+	@Override
+	public void preCreateRule()
+	{
+		// ignore
+	}
+
+	@Override
+	public void preUnderusedRule(NonTerminal nonTerminal)
+	{
+		// ignore
+	}
+
+	@Override
+	public void createRule(Rule rule)
 	{
 		RulePrinter printer = createPrinter();
-		System.out.println(printer.getText());
+
+		System.out.println("Create production: " + printer.getName(rule)
+				+ " -> " + printer.getRightSide(rule));
 		System.out.println();
+
+		System.out.println(printer.getText());
 	}
 
 	@Override
 	public void underusedRule(NonTerminal nonTerminal)
 	{
 		RulePrinter printer = createPrinter();
-		System.out.println(printer.getText());
 
-		System.out.println();
-		System.out.println("underused rule: "
+		System.out.println("Underused production: "
 				+ printer.getName(nonTerminal.getRule()));
 		System.out.println();
+
+		System.out.println(printer.getText());
 	}
+
+	@Override
+	public void lookForDigram(Symbol symbol)
+	{
+		RulePrinter printer = createPrinter();
+		System.out.println("look for digram: " + printer.getSymbol(symbol)
+				+ printer.getSymbol(symbol.getNext()));
+	}
+
+	@Override
+	public void digramNotFound()
+	{
+		RulePrinter printer = createPrinter();
+
+		System.out.println("Digram not found");
+		System.out.println();
+
+		System.out.println(printer.getText());
+	}
+
 }

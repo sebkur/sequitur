@@ -76,7 +76,7 @@ public class NonTerminal extends Symbol implements Cloneable
 
 	public void expand()
 	{
-		sequitur.emitUnderusedRule(this);
+		sequitur.emitPreUnderusedRule(this);
 
 		sequitur.join(p, r.first());
 		sequitur.join(r.last(), n);
@@ -92,5 +92,7 @@ public class NonTerminal extends Symbol implements Cloneable
 
 		r.guard.r = null;
 		r.guard = null;
+
+		sequitur.emitUnderusedRule(this);
 	}
 }
