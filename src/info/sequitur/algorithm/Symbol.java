@@ -197,7 +197,9 @@ public abstract class Symbol
 				newD.substitute(r);
 				sequitur.emitCreateRule(r);
 				matching.checkAfterSubstitute(r);
-				newD.checkAfterSubstitute(r);
+				if (matching.n.n.value != newD.value) {
+					newD.checkAfterSubstitute(r);
+				}
 
 				// Bug fix (21.8.2012): moved the following line
 				// to occur after substitutions (see sequitur_simple.cc)
