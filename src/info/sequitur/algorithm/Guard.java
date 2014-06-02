@@ -1,5 +1,6 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
+ Copyright (C) 1997 Eibe Frank
  Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
@@ -17,19 +18,39 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur;
+package info.sequitur.algorithm;
 
-import javax.swing.JFrame;
-
-public class RunSequitur
+public class Guard extends Symbol
 {
-	public static void main(String[] args)
+
+	Rule r;
+
+	Guard(Sequitur sequitur, Rule theRule)
 	{
-		SequiturPanel sequitur = new SequiturPanel();
-		JFrame frame = new JFrame("Sequitur");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setContentPane(sequitur);
-		frame.setSize(800, 600);
-		frame.setVisible(true);
+		super(sequitur);
+		r = theRule;
+		value = 0;
+		p = this;
+		n = this;
+	}
+
+	public void cleanUp()
+	{
+		sequitur.join(p, n);
+	}
+
+	public boolean isGuard()
+	{
+		return true;
+	}
+
+	public void deleteDigram()
+	{
+		// Do nothing
+	}
+
+	public boolean check()
+	{
+		return false;
 	}
 }

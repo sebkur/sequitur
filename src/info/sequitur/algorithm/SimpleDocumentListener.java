@@ -1,6 +1,5 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
- Copyright (C) 1997 Eibe Frank
  Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
@@ -18,39 +17,32 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur;
+package info.sequitur.algorithm;
 
-public class Guard extends Symbol
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+public abstract class SimpleDocumentListener implements DocumentListener
 {
 
-	Rule r;
-
-	Guard(Sequitur sequitur, Rule theRule)
+	@Override
+	public void insertUpdate(DocumentEvent e)
 	{
-		super(sequitur);
-		r = theRule;
-		value = 0;
-		p = this;
-		n = this;
+		someUpdate(e);
 	}
 
-	public void cleanUp()
+	@Override
+	public void removeUpdate(DocumentEvent e)
 	{
-		sequitur.join(p, n);
+		someUpdate(e);
 	}
 
-	public boolean isGuard()
+	@Override
+	public void changedUpdate(DocumentEvent e)
 	{
-		return true;
+		someUpdate(e);
 	}
 
-	public void deleteDigram()
-	{
-		// Do nothing
-	}
+	public abstract void someUpdate(DocumentEvent e);
 
-	public boolean check()
-	{
-		return false;
-	}
 }

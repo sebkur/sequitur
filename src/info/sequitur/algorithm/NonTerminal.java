@@ -18,7 +18,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur;
+package info.sequitur.algorithm;
 
 public class NonTerminal extends Symbol implements Cloneable
 {

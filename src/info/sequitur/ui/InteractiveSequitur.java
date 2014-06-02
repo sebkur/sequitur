@@ -17,32 +17,19 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur;
+package info.sequitur.ui;
 
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.JFrame;
 
-public abstract class SimpleDocumentListener implements DocumentListener
+public class InteractiveSequitur
 {
-
-	@Override
-	public void insertUpdate(DocumentEvent e)
+	public static void main(String[] args)
 	{
-		someUpdate(e);
+		SequiturPanel sequitur = new SequiturPanel();
+		JFrame frame = new JFrame("Sequitur");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setContentPane(sequitur);
+		frame.setSize(800, 600);
+		frame.setVisible(true);
 	}
-
-	@Override
-	public void removeUpdate(DocumentEvent e)
-	{
-		someUpdate(e);
-	}
-
-	@Override
-	public void changedUpdate(DocumentEvent e)
-	{
-		someUpdate(e);
-	}
-
-	public abstract void someUpdate(DocumentEvent e);
-
 }
