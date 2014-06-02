@@ -20,7 +20,8 @@
 
 package info.sequitur;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Rule
 {
@@ -69,19 +70,18 @@ public class Rule
 
 	public String getRules()
 	{
-		Vector rules = new Vector(sequitur.getNumRules());
+		List<Rule> rules = new ArrayList<Rule>(sequitur.getNumRules());
 		Rule currentRule;
 		Rule referedTo;
 		Symbol sym;
 		int index;
 		int processedRules = 0;
 		StringBuffer text = new StringBuffer();
-		int charCounter = 0;
 
 		text.append("Usage\tRule\n");
-		rules.addElement(this);
+		rules.add(this);
 		while (processedRules < rules.size()) {
-			currentRule = (Rule) rules.elementAt(processedRules);
+			currentRule = (Rule) rules.get(processedRules);
 			text.append(" ");
 			text.append(currentRule.count);
 			text.append("\tR");
@@ -91,12 +91,12 @@ public class Rule
 				if (sym.isNonTerminal()) {
 					referedTo = ((NonTerminal) sym).r;
 					if ((rules.size() > referedTo.index)
-							&& ((Rule) rules.elementAt(referedTo.index) == referedTo)) {
+							&& ((Rule) rules.get(referedTo.index) == referedTo)) {
 						index = referedTo.index;
 					} else {
 						index = rules.size();
 						referedTo.index = index;
-						rules.addElement(referedTo);
+						rules.add(referedTo);
 					}
 					text.append('R');
 					text.append(index);
