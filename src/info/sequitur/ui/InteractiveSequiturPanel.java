@@ -21,6 +21,7 @@
 package info.sequitur.ui;
 
 import info.sequitur.algorithm.Sequitur;
+import info.sequitur.util.NamingStrategy;
 import info.sequitur.util.SequiturUtil;
 
 import java.awt.Font;
@@ -56,13 +57,13 @@ public class InteractiveSequiturPanel extends JPanel
 		dataLabel = new JLabel("Data");
 		dataLabel.setFont(f1);
 
-		text = new JTextArea(9, 70);
+		text = new JTextArea();
 		text.setFont(f2);
 
 		rulesLabel = new JLabel("Grammar");
 		rulesLabel.setFont(f1);
 
-		rules = new JTextArea(9, 70);
+		rules = new JTextArea();
 		rules.setEditable(false);
 		rules.setFont(f2);
 
@@ -111,7 +112,8 @@ public class InteractiveSequiturPanel extends JPanel
 	{
 		Sequitur sequitur = new Sequitur();
 		sequitur.process(text.getText());
-		rules.setText(SequiturUtil.buildRuleTable(sequitur));
+		rules.setText(SequiturUtil.buildRuleTable(sequitur,
+				NamingStrategy.USE_LETTERS));
 	}
 
 }

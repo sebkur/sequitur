@@ -17,27 +17,11 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur.cli;
+package info.sequitur.util;
 
-import info.sequitur.algorithm.Sequitur;
-import info.sequitur.util.NamingStrategy;
-import info.sequitur.util.SequiturUtil;
+public enum NamingStrategy {
 
-public class RunSequitur
-{
-	public static void main(String[] args)
-	{
-		if (args.length < 1) {
-			System.out.println("usage: " + Sequitur.class.getSimpleName()
-					+ " <input>");
-			System.exit(1);
-		}
+	USE_R_PLUS_NUMBER, //
+	USE_LETTERS
 
-		String input = args[0];
-
-		Sequitur sequitur = new Sequitur();
-		sequitur.process(input);
-		System.out.println(SequiturUtil.buildRuleTable(sequitur,
-				NamingStrategy.USE_LETTERS));
-	}
 }

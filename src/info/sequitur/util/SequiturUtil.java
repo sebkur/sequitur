@@ -38,7 +38,8 @@ public class SequiturUtil
 		return sequitur.getFirstRule();
 	}
 
-	public static String buildRuleTable(Sequitur sequitur)
+	public static String buildRuleTable(Sequitur sequitur,
+			NamingStrategy strategy)
 	{
 		List<Rule> rules = new ArrayList<Rule>(sequitur.getNumRules());
 		Rule currentRule;
@@ -54,10 +55,11 @@ public class SequiturUtil
 			currentRule = rules.get(processedRules);
 			text.append(" ");
 			text.append(currentRule.count);
-			text.append("\tR");
-			text.append(processedRules);
+			text.append("\t");
+			text.append(name(processedRules, strategy));
 			text.append(" -> ");
-			for (sym = currentRule.first(); (!sym.isGuard()); sym = sym.getNext()) {
+			for (sym = currentRule.first(); (!sym.isGuard()); sym = sym
+					.getNext()) {
 				if (sym.isNonTerminal()) {
 					referedTo = ((NonTerminal) sym).getRule();
 					if ((rules.size() > referedTo.index)
@@ -68,8 +70,9 @@ public class SequiturUtil
 						referedTo.index = index;
 						rules.add(referedTo);
 					}
-					text.append('R');
-					text.append(index);
+					text.append("[");
+					text.append(name(index, strategy));
+					text.append("]");
 				} else {
 					int value = sym.getValue();
 					if (value == ' ') {
@@ -88,5 +91,21 @@ public class SequiturUtil
 			processedRules++;
 		}
 		return text.toString();
+	}
+
+	private static String name(int index, NamingStrategy strategy)
+	{
+		switch (strategy) {
+		default:
+		case USE_R_PLUS_NUMBER:
+			return "R" + index;
+		case USE_LETTERS:
+			int offset = index % 26;
+			char c = (char) ('A' + offset);
+			if (index < 26) {
+				return "" + c;
+			}
+			return c + "" + (index / 26);
+		}
 	}
 }
