@@ -1,6 +1,5 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
- Copyright (C) 1997 Eibe Frank
  Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
@@ -18,43 +17,11 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur.algorithm;
+package info.sequitur.util;
 
-public class Rule
-{
+public enum NamingOrder {
 
-	// Guard symbol to mark beginning
-	// and end of rule.
-
-	public Guard guard;
-
-	// Counter keeps track of how many
-	// times the rule is used in the
-	// grammar.
-
-	public int count;
-
-	// The rule's number.
-	// Used for identification of
-	// non-terminals.
-
-	public int number;
-
-	Rule(Sequitur sequitur)
-	{
-		number = sequitur.getNextRuleId();
-		guard = new Guard(sequitur, this);
-		count = 0;
-	}
-
-	public Symbol first()
-	{
-		return guard.n;
-	}
-
-	public Symbol last()
-	{
-		return guard.p;
-	}
+	BY_CREATION, //
+	BY_USAGE
 
 }

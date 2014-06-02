@@ -21,6 +21,7 @@ package info.sequitur.util;
 
 public enum NamingStrategy {
 
+	USE_NUMBER, //
 	USE_R_PLUS_NUMBER, //
 	USE_LETTERS, //
 	USE_LETTERS_START_WITH_S

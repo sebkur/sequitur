@@ -20,8 +20,9 @@
 package info.sequitur.cli;
 
 import info.sequitur.algorithm.Sequitur;
+import info.sequitur.util.NamingOrder;
 import info.sequitur.util.NamingStrategy;
-import info.sequitur.util.SequiturUtil;
+import info.sequitur.util.RulePrinter;
 
 public class RunSequitur
 {
@@ -37,7 +38,9 @@ public class RunSequitur
 
 		Sequitur sequitur = new Sequitur();
 		sequitur.process(input);
-		System.out.println(SequiturUtil.buildRuleTable(sequitur,
-				NamingStrategy.USE_LETTERS_START_WITH_S));
+		RulePrinter printer = new RulePrinter(sequitur,
+				NamingStrategy.USE_LETTERS_START_WITH_S,
+				NamingOrder.BY_CREATION);
+		System.out.println(printer.getText());
 	}
 }
