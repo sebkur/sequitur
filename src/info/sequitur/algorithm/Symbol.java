@@ -179,13 +179,14 @@ public abstract class Symbol
 	 * Produce the hashcode for a digram.
 	 */
 
+	@Override
 	public int hashCode()
 	{
 		// Values in linear combination with two
 		// prime numbers.
 
 		long code = ((21599 * (long) value) + (20507 * (long) n.value));
-		code = code % (long) prime;
+		code = code % prime;
 		return (int) code;
 	}
 
@@ -193,6 +194,7 @@ public abstract class Symbol
 	 * Test if two digrams are equal. WARNING: don't use to compare two symbols.
 	 */
 
+	@Override
 	public boolean equals(Object obj)
 	{
 		return ((value == ((Symbol) obj).value) && (n.value == ((Symbol) obj).n.value));

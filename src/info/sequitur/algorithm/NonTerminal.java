@@ -40,6 +40,7 @@ public class NonTerminal extends Symbol implements Cloneable
 	 * increased.
 	 */
 
+	@Override
 	protected Object clone()
 	{
 		NonTerminal sym = new NonTerminal(sequitur, r);
@@ -49,6 +50,7 @@ public class NonTerminal extends Symbol implements Cloneable
 		return sym;
 	}
 
+	@Override
 	public void cleanUp()
 	{
 		sequitur.join(p, n);
@@ -56,6 +58,7 @@ public class NonTerminal extends Symbol implements Cloneable
 		r.count--;
 	}
 
+	@Override
 	public boolean isNonTerminal()
 	{
 		return true;

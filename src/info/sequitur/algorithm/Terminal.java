@@ -31,6 +31,7 @@ public class Terminal extends Symbol implements Cloneable
 		n = null;
 	}
 
+	@Override
 	public void cleanUp()
 	{
 		sequitur.join(p, n);

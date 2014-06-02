@@ -81,7 +81,7 @@ public class Rule
 		text.append("Usage\tRule\n");
 		rules.add(this);
 		while (processedRules < rules.size()) {
-			currentRule = (Rule) rules.get(processedRules);
+			currentRule = rules.get(processedRules);
 			text.append(" ");
 			text.append(currentRule.count);
 			text.append("\tR");
@@ -91,7 +91,7 @@ public class Rule
 				if (sym.isNonTerminal()) {
 					referedTo = ((NonTerminal) sym).r;
 					if ((rules.size() > referedTo.index)
-							&& ((Rule) rules.get(referedTo.index) == referedTo)) {
+							&& (rules.get(referedTo.index) == referedTo)) {
 						index = referedTo.index;
 					} else {
 						index = rules.size();

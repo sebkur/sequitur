@@ -34,21 +34,25 @@ public class Guard extends Symbol
 		n = this;
 	}
 
+	@Override
 	public void cleanUp()
 	{
 		sequitur.join(p, n);
 	}
 
+	@Override
 	public boolean isGuard()
 	{
 		return true;
 	}
 
+	@Override
 	public void deleteDigram()
 	{
 		// Do nothing
 	}
 
+	@Override
 	public boolean check()
 	{
 		return false;
