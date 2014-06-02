@@ -29,11 +29,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 public class RulePrinter
 {
+	private Sequitur sequitur;
+
 	private StringBuilder text;
 	private List<Rule> rules;
 	private Map<Rule, Integer> ruleToIndex = new HashMap<Rule, Integer>();
@@ -44,13 +47,20 @@ public class RulePrinter
 	public RulePrinter(Sequitur sequitur, NamingStrategy strategy,
 			NamingOrder order)
 	{
+		this(sequitur, strategy, order, "Usage\tRule\n");
+	}
+
+	public RulePrinter(Sequitur sequitur, NamingStrategy strategy,
+			NamingOrder order, String header)
+	{
+		this.sequitur = sequitur;
 		this.strategy = strategy;
 		this.order = order;
 		rules = new ArrayList<Rule>(sequitur.getNumRules());
 		int processedRules = 0;
 		text = new StringBuilder();
 
-		text.append("Usage\tRule\n");
+		text.append(header);
 		rules.add(sequitur.getFirstRule());
 		ruleToIndex.put(sequitur.getFirstRule(), 0);
 		while (processedRules < rules.size()) {
@@ -203,5 +213,28 @@ public class RulePrinter
 				}
 			}
 		}
+	}
+
+	public String getDigramList()
+	{
+		List<String> digramList = new ArrayList<String>();
+		Hashtable<Symbol, Symbol> digrams = sequitur.getDigrams();
+		for (Symbol key : digrams.keySet()) {
+			Symbol next = key.getNext();
+			String a = getSymbol(key);
+			String b = getSymbol(next);
+			digramList.add(a + b);
+		}
+		Collections.sort(digramList);
+
+		StringBuilder text = new StringBuilder();
+		for (int i = 0; i < digramList.size() - 1; i++) {
+			text.append(digramList.get(i));
+			text.append('\n');
+		}
+		if (digramList.size() > 0) {
+			text.append(digramList.get(digramList.size() - 1));
+		}
+		return text.toString();
 	}
 }
