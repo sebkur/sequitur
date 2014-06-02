@@ -17,7 +17,7 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package info.sequitur.algorithm;
+package info.sequitur.ui;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
