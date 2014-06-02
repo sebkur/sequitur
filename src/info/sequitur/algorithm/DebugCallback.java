@@ -22,6 +22,6 @@ package info.sequitur.algorithm;
 public interface DebugCallback
 {
 
-	public void underusedRule();
+	public void underusedRule(NonTerminal nonTerminal);
 
 }

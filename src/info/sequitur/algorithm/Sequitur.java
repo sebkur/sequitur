@@ -109,10 +109,10 @@ public class Sequitur
 		return firstRule;
 	}
 
-	public void emitUnderusedRule()
+	public void emitUnderusedRule(NonTerminal nonTerminal)
 	{
 		if (debugCallback != null) {
-			debugCallback.underusedRule();
+			debugCallback.underusedRule(nonTerminal);
 		}
 	}
 

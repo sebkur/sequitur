@@ -99,14 +99,14 @@ public class RulePrinter
 		text.append(" ");
 		text.append(currentRule.count);
 		text.append("\t");
-		text.append(name(currentRule));
+		text.append(getName(currentRule));
 		text.append(" -> ");
 		for (Symbol sym = currentRule.first(); (!sym.isGuard()); sym = sym
 				.getNext()) {
 			if (sym.isNonTerminal()) {
 				Rule referedTo = ((NonTerminal) sym).getRule();
 				text.append("[");
-				text.append(name(referedTo));
+				text.append(getName(referedTo));
 				text.append("]");
 			} else {
 				int value = sym.getValue();
@@ -124,7 +124,7 @@ public class RulePrinter
 		}
 	}
 
-	private String name(Rule rule)
+	public String getName(Rule rule)
 	{
 		int index;
 		switch (order) {

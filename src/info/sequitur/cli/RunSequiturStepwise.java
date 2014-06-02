@@ -20,6 +20,7 @@
 package info.sequitur.cli;
 
 import info.sequitur.algorithm.DebugCallback;
+import info.sequitur.algorithm.NonTerminal;
 import info.sequitur.algorithm.Sequitur;
 import info.sequitur.util.NamingOrder;
 import info.sequitur.util.NamingStrategy;
@@ -64,21 +65,30 @@ public class RunSequiturStepwise implements DebugCallback
 		}
 	}
 
-	private void print()
+	private RulePrinter createPrinter()
 	{
 		RulePrinter printer = new RulePrinter(sequitur,
 				NamingStrategy.USE_LETTERS_START_WITH_S,
 				NamingOrder.BY_CREATION);
+		return printer;
+	}
+
+	private void print()
+	{
+		RulePrinter printer = createPrinter();
 		System.out.println(printer.getText());
 		System.out.println();
 	}
 
 	@Override
-	public void underusedRule()
+	public void underusedRule(NonTerminal nonTerminal)
 	{
-		print();
+		RulePrinter printer = createPrinter();
+		System.out.println(printer.getText());
 
-		System.out.println("underused rule");
+		System.out.println();
+		System.out.println("underused rule: "
+				+ printer.getName(nonTerminal.getRule()));
 		System.out.println();
 	}
 }
