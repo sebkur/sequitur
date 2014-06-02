@@ -118,15 +118,17 @@ public abstract class Symbol
 	{
 		Symbol found;
 
-		if (n.isGuard())
+		if (n.isGuard()) {
 			return false;
+		}
 		if (!sequitur.getDigrams().containsKey(this)) {
 			found = sequitur.getDigrams().put(this, this);
 			return false;
 		}
 		found = sequitur.getDigrams().get(this);
-		if (found.n != this)
+		if (found.n != this) {
 			match(this, found);
+		}
 		return true;
 	}
 
