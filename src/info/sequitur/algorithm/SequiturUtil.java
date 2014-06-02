@@ -1,5 +1,6 @@
 /*
  This class is part of a Java port of Craig Nevill-Manning's Sequitur algorithm.
+ Copyright (C) 1997 Eibe Frank
  Copyright (C) 2014 Sebastian Kuerten
 
  This program is free software; you can redistribute it and/or
@@ -19,6 +20,9 @@
 
 package info.sequitur.algorithm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SequiturUtil
 {
 
@@ -27,5 +31,56 @@ public class SequiturUtil
 		Sequitur sequitur = new Sequitur();
 		sequitur.process(input);
 		return sequitur.getFirstRule();
+	}
+
+	public static String buildRuleTable(Sequitur sequitur)
+	{
+		List<Rule> rules = new ArrayList<Rule>(sequitur.getNumRules());
+		Rule currentRule;
+		Rule referedTo;
+		Symbol sym;
+		int index;
+		int processedRules = 0;
+		StringBuilder text = new StringBuilder();
+
+		text.append("Usage\tRule\n");
+		rules.add(sequitur.getFirstRule());
+		while (processedRules < rules.size()) {
+			currentRule = rules.get(processedRules);
+			text.append(" ");
+			text.append(currentRule.count);
+			text.append("\tR");
+			text.append(processedRules);
+			text.append(" -> ");
+			for (sym = currentRule.first(); (!sym.isGuard()); sym = sym.n) {
+				if (sym.isNonTerminal()) {
+					referedTo = ((NonTerminal) sym).r;
+					if ((rules.size() > referedTo.index)
+							&& (rules.get(referedTo.index) == referedTo)) {
+						index = referedTo.index;
+					} else {
+						index = rules.size();
+						referedTo.index = index;
+						rules.add(referedTo);
+					}
+					text.append('R');
+					text.append(index);
+				} else {
+					if (sym.value == ' ') {
+						text.append('_');
+					} else {
+						if (sym.value == '\n') {
+							text.append("\\n");
+						} else {
+							text.append((char) sym.value);
+						}
+					}
+				}
+				text.append(' ');
+			}
+			text.append('\n');
+			processedRules++;
+		}
+		return text.toString();
 	}
 }

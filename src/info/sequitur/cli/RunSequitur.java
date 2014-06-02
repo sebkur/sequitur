@@ -19,7 +19,6 @@
 
 package info.sequitur.cli;
 
-import info.sequitur.algorithm.Rule;
 import info.sequitur.algorithm.Sequitur;
 import info.sequitur.algorithm.SequiturUtil;
 
@@ -35,7 +34,8 @@ public class RunSequitur
 
 		String input = args[0];
 
-		Rule rule = SequiturUtil.run(input);
-		System.out.println(rule.getRules());
+		Sequitur sequitur = new Sequitur();
+		sequitur.process(input);
+		System.out.println(SequiturUtil.buildRuleTable(sequitur));
 	}
 }

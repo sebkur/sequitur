@@ -20,12 +20,8 @@
 
 package info.sequitur.algorithm;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Rule
 {
-	private Sequitur sequitur;
 
 	// Guard symbol to mark beginning
 	// and end of rule.
@@ -50,7 +46,6 @@ public class Rule
 
 	Rule(Sequitur sequitur)
 	{
-		this.sequitur = sequitur;
 		number = sequitur.getNextRuleId();
 		guard = new Guard(sequitur, this);
 		count = 0;
@@ -67,54 +62,4 @@ public class Rule
 		return guard.p;
 	}
 
-	public String getRules()
-	{
-		List<Rule> rules = new ArrayList<Rule>(sequitur.getNumRules());
-		Rule currentRule;
-		Rule referedTo;
-		Symbol sym;
-		int index;
-		int processedRules = 0;
-		StringBuffer text = new StringBuffer();
-
-		text.append("Usage\tRule\n");
-		rules.add(this);
-		while (processedRules < rules.size()) {
-			currentRule = rules.get(processedRules);
-			text.append(" ");
-			text.append(currentRule.count);
-			text.append("\tR");
-			text.append(processedRules);
-			text.append(" -> ");
-			for (sym = currentRule.first(); (!sym.isGuard()); sym = sym.n) {
-				if (sym.isNonTerminal()) {
-					referedTo = ((NonTerminal) sym).r;
-					if ((rules.size() > referedTo.index)
-							&& (rules.get(referedTo.index) == referedTo)) {
-						index = referedTo.index;
-					} else {
-						index = rules.size();
-						referedTo.index = index;
-						rules.add(referedTo);
-					}
-					text.append('R');
-					text.append(index);
-				} else {
-					if (sym.value == ' ') {
-						text.append('_');
-					} else {
-						if (sym.value == '\n') {
-							text.append("\\n");
-						} else {
-							text.append((char) sym.value);
-						}
-					}
-				}
-				text.append(' ');
-			}
-			text.append('\n');
-			processedRules++;
-		}
-		return new String(text);
-	}
 }

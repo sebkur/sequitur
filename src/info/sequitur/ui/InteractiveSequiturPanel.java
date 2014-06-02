@@ -20,7 +20,7 @@
 
 package info.sequitur.ui;
 
-import info.sequitur.algorithm.Rule;
+import info.sequitur.algorithm.Sequitur;
 import info.sequitur.algorithm.SequiturUtil;
 
 import java.awt.Font;
@@ -109,8 +109,9 @@ public class InteractiveSequiturPanel extends JPanel
 
 	public void runSequitur()
 	{
-		Rule firstRule = SequiturUtil.run(text.getText());
-		rules.setText(firstRule.getRules());
+		Sequitur sequitur = new Sequitur();
+		sequitur.process(text.getText());
+		rules.setText(SequiturUtil.buildRuleTable(sequitur));
 	}
 
 }
