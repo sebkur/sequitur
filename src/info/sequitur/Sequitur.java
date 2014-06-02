@@ -23,10 +23,7 @@ package info.sequitur;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,7 +37,6 @@ public class Sequitur extends JPanel
 
 	private JTextArea text;
 	private JTextArea rules;
-	private JButton submit;
 	private JLabel dataLabel;
 	private JLabel rulesLabel;
 	private Font f1 = new Font("TimesRoman", Font.BOLD, 18);
@@ -67,9 +63,6 @@ public class Sequitur extends JPanel
 		rules.setEditable(false);
 		rules.setFont(f2);
 
-		submit = new JButton("Run sequitur");
-		submit.setFont(f1);
-
 		JScrollPane scrollText = new JScrollPane(text);
 		JScrollPane scrollRules = new JScrollPane(rules);
 
@@ -92,19 +85,6 @@ public class Sequitur extends JPanel
 		c.weighty = 1.0;
 		add(scrollRules, c);
 
-		c.gridy++;
-		c.weighty = 0.0;
-		add(submit, c);
-
-		submit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				updateGrammer();
-			}
-		});
-
 		text.getDocument().addDocumentListener(new SimpleDocumentListener() {
 
 			@Override
@@ -119,10 +99,8 @@ public class Sequitur extends JPanel
 
 	protected void updateGrammer()
 	{
-		submit.setEnabled(false);
 		text.setEditable(false);
 		runSequitur();
-		submit.setEnabled(true);
 		text.setEditable(true);
 	}
 
