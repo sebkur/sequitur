@@ -141,8 +141,9 @@ public abstract class Symbol
 		cleanUp();
 		n.cleanUp();
 		p.insertAfter(new NonTerminal(sequitur, r));
-		if (!p.check())
+		if (!p.check()) {
 			p.n.check();
+		}
 	}
 
 	/**
