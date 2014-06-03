@@ -24,12 +24,14 @@ import javax.swing.JButton;
 public class ButtonGroup
 {
 
-	private JButton previous, next;
+	private JButton previous, next, first, last;
 
 	public ButtonGroup()
 	{
 		previous = new JButton("<");
 		next = new JButton(">");
+		first = new JButton("<<");
+		last = new JButton(">>");
 	}
 
 	public JButton getPrevious()
@@ -40,5 +42,15 @@ public class ButtonGroup
 	public JButton getNext()
 	{
 		return next;
+	}
+
+	public JButton getFirst()
+	{
+		return first;
+	}
+
+	public JButton getLast()
+	{
+		return last;
 	}
 }

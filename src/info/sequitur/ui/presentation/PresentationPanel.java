@@ -60,20 +60,26 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 
 		JPanel pUni = new JPanel(new FlowLayout());
 		pUni.setBorder(BorderFactory.createTitledBorder("Schritt"));
+		pUni.add(bgUni.getFirst());
 		pUni.add(bgUni.getPrevious());
 		pUni.add(bgUni.getNext());
+		pUni.add(bgUni.getLast());
 		panelButtons.add(pUni);
 
 		JPanel pChar = new JPanel(new FlowLayout());
 		pChar.setBorder(BorderFactory.createTitledBorder("Zeichen"));
+		pChar.add(bgChar.getFirst());
 		pChar.add(bgChar.getPrevious());
 		pChar.add(bgChar.getNext());
+		pChar.add(bgChar.getLast());
 		panelButtons.add(pChar);
 
 		JPanel pStep = new JPanel(new FlowLayout());
 		pStep.setBorder(BorderFactory.createTitledBorder("Zwischenschritt"));
+		pStep.add(bgStep.getFirst());
 		pStep.add(bgStep.getPrevious());
 		pStep.add(bgStep.getNext());
+		pStep.add(bgStep.getLast());
 		panelButtons.add(pStep);
 
 		setLayout(new GridBagLayout());
@@ -103,12 +109,12 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 			}
 		});
 
-		bgUni.getNext().addActionListener(new ActionListener() {
+		bgUni.getFirst().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				nextUni();
+				firstUni();
 			}
 		});
 		bgUni.getPrevious().addActionListener(new ActionListener() {
@@ -119,13 +125,29 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 				prevUni();
 			}
 		});
-
-		bgChar.getNext().addActionListener(new ActionListener() {
+		bgUni.getNext().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				nextChar();
+				nextUni();
+			}
+		});
+		bgUni.getLast().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				lastUni();
+			}
+		});
+
+		bgChar.getFirst().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				firstChar();
 			}
 		});
 		bgChar.getPrevious().addActionListener(new ActionListener() {
@@ -136,13 +158,29 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 				prevChar();
 			}
 		});
-
-		bgStep.getNext().addActionListener(new ActionListener() {
+		bgChar.getNext().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				nextStep();
+				nextChar();
+			}
+		});
+		bgChar.getLast().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				lastChar();
+			}
+		});
+
+		bgStep.getFirst().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				firstStep();
 			}
 		});
 		bgStep.getPrevious().addActionListener(new ActionListener() {
@@ -151,6 +189,22 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 			public void actionPerformed(ActionEvent e)
 			{
 				prevStep();
+			}
+		});
+		bgStep.getNext().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				nextStep();
+			}
+		});
+		bgStep.getLast().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				lastStep();
 			}
 		});
 
@@ -164,6 +218,11 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 		state.setModel(model);
 		model.addModelChangedListener(this);
 		modelChanged();
+	}
+
+	protected void firstUni()
+	{
+		firstChar();
 	}
 
 	protected void prevUni()
@@ -180,6 +239,19 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 	{
 		if (!nextStep()) {
 			nextChar();
+		}
+	}
+
+	protected void lastUni()
+	{
+		lastChar();
+		lastStep();
+	}
+
+	protected void firstChar()
+	{
+		if (model.getCurrentChar() > 0) {
+			model.setCurrentChar(0);
 		}
 	}
 
@@ -201,6 +273,20 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 		return false;
 	}
 
+	protected void lastChar()
+	{
+		if (model.getCurrentChar() < model.getLength() - 1) {
+			model.setCurrentChar(model.getLength() - 1);
+		}
+	}
+
+	protected void firstStep()
+	{
+		if (model.getCurrentStep() > 0) {
+			model.setCurrentStep(0);
+		}
+	}
+
 	protected boolean prevStep()
 	{
 		if (model.getCurrentStep() > 0) {
@@ -208,11 +294,6 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 			return true;
 		}
 		return false;
-	}
-
-	protected void lastStep()
-	{
-		model.setCurrentStep(model.getCurrentNumberOfSteps() - 1);
 	}
 
 	protected boolean nextStep()
@@ -224,18 +305,33 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 		return false;
 	}
 
+	protected void lastStep()
+	{
+		if (model.getCurrentStep() < model.getCurrentNumberOfSteps() - 1) {
+			model.setCurrentStep(model.getCurrentNumberOfSteps() - 1);
+		}
+	}
+
 	@Override
 	public void modelChanged()
 	{
 		int cc = model.getCurrentChar();
 		int cs = model.getCurrentStep();
 
+		bgChar.getFirst().setEnabled(cc > 0);
 		bgChar.getPrevious().setEnabled(cc > 0);
 		bgChar.getNext().setEnabled(cc < model.getLength() - 1);
+		bgChar.getLast().setEnabled(cc < model.getLength() - 1);
+		bgStep.getFirst().setEnabled(cs > 0);
 		bgStep.getPrevious().setEnabled(cs > 0);
 		bgStep.getNext().setEnabled(cs < model.getCurrentNumberOfSteps() - 1);
+		bgStep.getLast().setEnabled(cs < model.getCurrentNumberOfSteps() - 1);
+		bgUni.getFirst().setEnabled(cc > 0 || cs > 0);
 		bgUni.getPrevious().setEnabled(cc > 0 || cs > 0);
 		bgUni.getNext().setEnabled(
+				cc < model.getLength() - 1
+						|| cs < model.getCurrentNumberOfSteps() - 1);
+		bgUni.getLast().setEnabled(
 				cc < model.getLength() - 1
 						|| cs < model.getCurrentNumberOfSteps() - 1);
 	}
