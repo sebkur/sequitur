@@ -24,8 +24,11 @@ import info.sequitur.ui.SimpleDocumentListener;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -209,6 +212,24 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 		});
 
 		inputChanged();
+
+		KeyboardFocusManager manager = KeyboardFocusManager
+				.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
+
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e)
+			{
+				if (e.getID() == KeyEvent.KEY_RELEASED) {
+					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+						nextUni();
+					} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+						prevUni();
+					}
+				}
+				return false;
+			}
+		});
 	}
 
 	protected void inputChanged()
