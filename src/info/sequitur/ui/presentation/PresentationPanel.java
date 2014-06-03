@@ -48,7 +48,7 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 
 	public PresentationPanel()
 	{
-		input = new JTextField("dabcdbcabcdbcbca");
+		input = new JTextField("dabcdbcabcdbcbbcc");
 		input.setFont(input.getFont().deriveFont(20f));
 		state = new StatePanel();
 

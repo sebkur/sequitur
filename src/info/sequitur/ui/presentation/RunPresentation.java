@@ -29,7 +29,7 @@ public class RunPresentation
 		JFrame frame = new JFrame("Sequitur");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(sequitur);
-		frame.setSize(800, 600);
+		frame.setSize(800, 700);
 		frame.setVisible(true);
 	}
 }
