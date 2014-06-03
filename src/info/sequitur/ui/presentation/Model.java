@@ -71,9 +71,10 @@ public class Model implements DebugCallback
 		pushSimple("Initialisierung");
 		for (int i = 0; i < length; i++) {
 			currentAction = actions.get(i);
+			pushSimple("Nächstes Zeichen: " + input.charAt(i));
 			sequitur.process(input.charAt(i));
 			if (i == 0) {
-				pushSimple("Erstes Zeichen");
+				pushSimple("Erstes Zeichen der Startproduktion hinzufügen");
 			}
 		}
 
@@ -142,14 +143,15 @@ public class Model implements DebugCallback
 	@Override
 	public void digramNotFound()
 	{
-		pushSimple("Nicht gefunden");
+		pushSimple("Bigramm hinzugefügt");
 	}
 
 	@Override
 	public void preCreateRule(Rule rule)
 	{
 		RulePrinter printer = createPrinter();
-		pushSimple("Erstelle Produktion: " + printer.getProduction(rule));
+		pushSimple("Erstelle Produktion: " + printer.getProduction(rule)
+				+ ", alte Bigramme entfernen");
 	}
 
 	@Override
@@ -168,15 +170,15 @@ public class Model implements DebugCallback
 	public void createRule(Rule rule)
 	{
 		RulePrinter printer = createPrinter();
-		pushSimple("Erstelle Produktion: " + printer.getProduction(rule));
+		pushSimple("Erstelle Produktion: " + printer.getProduction(rule)
+				+ ", neue Bigramme hinzufügen");
 	}
 
 	@Override
 	public void postCreateRule(Rule rule)
 	{
 		RulePrinter printer = createPrinter();
-		pushSimple(printer.getProduction(rule)
-				+ ", rechte Seite -> Bigramm-Index");
+		pushSimple("Ersetzung abgeschlossen: " + printer.getProduction(rule));
 	}
 
 	@Override
@@ -251,6 +253,20 @@ public class Model implements DebugCallback
 		}
 		List<State> list = actions.get(currentChar - 1);
 		return list.get(list.size() - 1);
+	}
+
+	@Override
+	public void insertDigram(Symbol symbol)
+	{
+		RulePrinter printer = createPrinter();
+		pushSimple("Bigramm hinzufügen: " + printer.getDigram(symbol));
+	}
+
+	@Override
+	public void removeDigram(Symbol symbol)
+	{
+		RulePrinter printer = createPrinter();
+		pushSimple("Bigramm entfernen: " + printer.getDigram(symbol));
 	}
 
 }

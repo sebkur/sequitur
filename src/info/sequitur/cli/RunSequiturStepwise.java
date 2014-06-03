@@ -156,4 +156,16 @@ public class RunSequiturStepwise implements DebugCallback
 		// ignore
 	}
 
+	@Override
+	public void insertDigram(Symbol symbol)
+	{
+		// ignore
+	}
+
+	@Override
+	public void removeDigram(Symbol symbol)
+	{
+		// ignore
+	}
+
 }

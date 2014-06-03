@@ -23,6 +23,10 @@ public interface DebugCallback
 {
 	public void lookForDigram(Symbol symbol);
 
+	public void insertDigram(Symbol symbol);
+
+	public void removeDigram(Symbol symbol);
+
 	public void digramNotFound();
 
 	public void preCreateRule(Rule rule);

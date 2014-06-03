@@ -85,6 +85,7 @@ public abstract class Symbol
 		// the stored one.
 
 		if (dummy == this) {
+			sequitur.emitRemoveDigram(this);
 			sequitur.getDigrams().remove(this);
 		}
 	}
@@ -123,6 +124,7 @@ public abstract class Symbol
 		}
 		sequitur.emitLookForDigram(this);
 		if (!sequitur.getDigrams().containsKey(this)) {
+			sequitur.emitInsertDigram(this);
 			found = sequitur.getDigrams().put(this, this);
 			sequitur.emitDigramNotFound();
 			return false;
@@ -204,6 +206,7 @@ public abstract class Symbol
 				// Bug fix (21.8.2012): moved the following line
 				// to occur after substitutions (see sequitur_simple.cc)
 
+				sequitur.emitInsertDigram(first);
 				sequitur.getDigrams().put(first, first);
 				sequitur.emitPostCreateRule(r);
 			} catch (CloneNotSupportedException c) {

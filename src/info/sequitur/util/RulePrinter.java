@@ -174,6 +174,14 @@ public class RulePrinter
 		return text.toString();
 	}
 
+	public String getDigram(Symbol symbol)
+	{
+		StringBuilder text = new StringBuilder();
+		appendSymbol(text, symbol);
+		appendSymbol(text, symbol.getNext());
+		return text.toString();
+	}
+
 	private void appendRow(StringBuilder text, Rule currentRule)
 	{
 		text.append(" ");

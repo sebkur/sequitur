@@ -127,6 +127,22 @@ public class Sequitur
 		}
 	}
 
+	void emitInsertDigram(Symbol symbol)
+	{
+		if (debugCallback != null) {
+			debugCallback.insertDigram(symbol);
+		}
+	}
+
+	void emitRemoveDigram(Symbol symbol)
+	{
+		if (debugCallback != null) {
+			if (!symbol.isGuard() && !symbol.getNext().isGuard()) {
+				debugCallback.removeDigram(symbol);
+			}
+		}
+	}
+
 	void emitPreCreateRule(Rule rule)
 	{
 		if (debugCallback != null) {

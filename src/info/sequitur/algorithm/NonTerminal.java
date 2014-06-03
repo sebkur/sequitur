@@ -20,7 +20,6 @@
 
 package info.sequitur.algorithm;
 
-
 public class NonTerminal extends Symbol implements Cloneable
 {
 
@@ -89,6 +88,7 @@ public class NonTerminal extends Symbol implements Cloneable
 		// the inserted rule and the first element after the inserted rule
 		// must be put into the hash table (Simon Schwarzer)
 
+		sequitur.emitInsertDigram(r.last());
 		sequitur.getDigrams().put(r.last(), r.last());
 
 		// Necessary so that garbage collector
