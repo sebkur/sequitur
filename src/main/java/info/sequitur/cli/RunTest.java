@@ -40,7 +40,7 @@ public class RunTest
 		int ml = Integer.parseInt(args[1]);
 		int runs = Integer.parseInt(args[2]);
 
-		List<Character> chars = new ArrayList<Character>();
+		List<Character> chars = new ArrayList<>();
 		for (int i = 0; i < cs; i++) {
 			char c = (char) ('a' + i);
 			chars.add(c);

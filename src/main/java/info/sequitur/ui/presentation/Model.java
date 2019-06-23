@@ -47,11 +47,11 @@ public class Model implements DebugCallback
 
 	private Sequitur sequitur;
 
-	private List<List<State>> actions = new ArrayList<List<State>>();
+	private List<List<State>> actions = new ArrayList<>();
 
 	private List<State> currentAction;
 
-	private List<ModelChangeListener> listeners = new ArrayList<ModelChangeListener>();
+	private List<ModelChangeListener> listeners = new ArrayList<>();
 
 	public Model(String input)
 	{

@@ -39,7 +39,7 @@ public class RulePrinter
 
 	private StringBuilder text;
 	private List<Rule> rules;
-	private Map<Rule, Integer> ruleToIndex = new HashMap<Rule, Integer>();
+	private Map<Rule, Integer> ruleToIndex = new HashMap<>();
 
 	private NamingStrategy strategy;
 	private NamingOrder order;
@@ -56,7 +56,7 @@ public class RulePrinter
 		this.sequitur = sequitur;
 		this.strategy = strategy;
 		this.order = order;
-		rules = new ArrayList<Rule>(sequitur.getNumRules());
+		rules = new ArrayList<>(sequitur.getNumRules());
 		int processedRules = 0;
 		text = new StringBuilder();
 
@@ -225,7 +225,7 @@ public class RulePrinter
 
 	public String getDigramList()
 	{
-		List<String> digramList = new ArrayList<String>();
+		List<String> digramList = new ArrayList<>();
 		Hashtable<Symbol, Symbol> digrams = sequitur.getDigrams();
 		for (Symbol key : digrams.keySet()) {
 			Symbol next = key.getNext();
