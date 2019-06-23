@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 
 public class RunPresentation
 {
+
 	public static void main(String[] args)
 	{
 		PresentationPanel sequitur = new PresentationPanel();
@@ -32,4 +33,5 @@ public class RunPresentation
 		frame.setSize(800, 700);
 		frame.setVisible(true);
 	}
+
 }

@@ -21,6 +21,7 @@ package info.sequitur.algorithm;
 
 public interface DebugCallback
 {
+
 	public void lookForDigram(Symbol symbol);
 
 	public void insertDigram(Symbol symbol);

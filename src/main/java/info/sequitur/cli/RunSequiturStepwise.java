@@ -30,6 +30,7 @@ import info.sequitur.util.RulePrinter;
 
 public class RunSequiturStepwise implements DebugCallback
 {
+
 	public static void main(String[] args)
 	{
 		if (args.length < 1) {
@@ -66,11 +67,11 @@ public class RunSequiturStepwise implements DebugCallback
 			System.out.println(printer.getTable());
 
 			System.out.println(headline);
-			System.out.println("Next character: '" + c + "', processed: '"
-					+ soFar + "'");
+			System.out.println(
+					"Next character: '" + c + "', processed: '" + soFar + "'");
 			System.out.println(headline);
-			System.out.println("* "
-					+ printer.getProduction(sequitur.getFirstRule()) + c);
+			System.out.println(
+					"* " + printer.getProduction(sequitur.getFirstRule()) + c);
 
 			sequitur.process(c);
 		}
@@ -111,8 +112,8 @@ public class RunSequiturStepwise implements DebugCallback
 	{
 		RulePrinter printer = createPrinter();
 
-		System.out.println(" > Create production: "
-				+ printer.getProduction(rule));
+		System.out.println(
+				" > Create production: " + printer.getProduction(rule));
 		System.out.println();
 		System.out.println(printer.getTable());
 		System.out.println();

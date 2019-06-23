@@ -29,8 +29,8 @@ public class RunSequitur
 	public static void main(String[] args)
 	{
 		if (args.length < 1) {
-			System.out.println("usage: " + RunSequitur.class.getSimpleName()
-					+ " <input>");
+			System.out.println(
+					"usage: " + RunSequitur.class.getSimpleName() + " <input>");
 			System.exit(1);
 		}
 

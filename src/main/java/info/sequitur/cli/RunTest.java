@@ -19,15 +19,16 @@
 
 package info.sequitur.cli;
 
-import info.sequitur.algorithm.Sequitur;
-import info.sequitur.decode.Decoder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import info.sequitur.algorithm.Sequitur;
+import info.sequitur.decode.Decoder;
+
 public class RunTest
 {
+
 	public static void main(String[] args)
 	{
 		if (args.length < 3) {
@@ -71,4 +72,5 @@ public class RunTest
 		}
 		return strb.toString();
 	}
+
 }

@@ -28,8 +28,7 @@ public class Sequitur
 	// The total number of rules.
 	private int numRules = 0;
 	// The hash table for the digrams
-	private Hashtable<Symbol, Symbol> digrams = new Hashtable<>(
-			Symbol.prime);
+	private Hashtable<Symbol, Symbol> digrams = new Hashtable<>(Symbol.prime);
 
 	private Rule firstRule = new Rule(this);
 
@@ -82,7 +81,8 @@ public class Sequitur
 			}
 
 			if ((left.p != null) && (left.n != null)
-					&& left.value == left.n.value && left.value == left.p.value) {
+					&& left.value == left.n.value
+					&& left.value == left.p.value) {
 				digrams.put(left.p, left.p);
 			}
 		}

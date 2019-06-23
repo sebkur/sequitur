@@ -99,4 +99,5 @@ public class NonTerminal extends Symbol implements Cloneable
 
 		sequitur.emitUnderusedRule(this);
 	}
+
 }

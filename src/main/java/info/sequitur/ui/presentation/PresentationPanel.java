@@ -19,8 +19,6 @@
 
 package info.sequitur.ui.presentation;
 
-import info.sequitur.ui.SimpleDocumentListener;
-
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,6 +32,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
+
+import info.sequitur.ui.SimpleDocumentListener;
 
 public class PresentationPanel extends JPanel implements ModelChangeListener
 {
@@ -349,11 +349,10 @@ public class PresentationPanel extends JPanel implements ModelChangeListener
 		bgStep.getLast().setEnabled(cs < model.getCurrentNumberOfSteps() - 1);
 		bgUni.getFirst().setEnabled(cc > 0 || cs > 0);
 		bgUni.getPrevious().setEnabled(cc > 0 || cs > 0);
-		bgUni.getNext().setEnabled(
-				cc < model.getLength() - 1
-						|| cs < model.getCurrentNumberOfSteps() - 1);
-		bgUni.getLast().setEnabled(
-				cc < model.getLength() - 1
-						|| cs < model.getCurrentNumberOfSteps() - 1);
+		bgUni.getNext().setEnabled(cc < model.getLength() - 1
+				|| cs < model.getCurrentNumberOfSteps() - 1);
+		bgUni.getLast().setEnabled(cc < model.getLength() - 1
+				|| cs < model.getCurrentNumberOfSteps() - 1);
 	}
+
 }

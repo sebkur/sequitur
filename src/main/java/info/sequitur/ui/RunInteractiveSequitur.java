@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 
 public class RunInteractiveSequitur
 {
+
 	public static void main(String[] args)
 	{
 		InteractiveSequiturPanel sequitur = new InteractiveSequiturPanel();
@@ -32,4 +33,5 @@ public class RunInteractiveSequitur
 		frame.setSize(800, 600);
 		frame.setVisible(true);
 	}
+
 }

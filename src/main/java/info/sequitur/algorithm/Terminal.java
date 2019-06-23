@@ -37,4 +37,5 @@ public class Terminal extends Symbol implements Cloneable
 		sequitur.join(p, n);
 		deleteDigram();
 	}
+
 }

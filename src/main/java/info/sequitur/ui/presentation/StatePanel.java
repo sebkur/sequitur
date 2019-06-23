@@ -19,9 +19,6 @@
 
 package info.sequitur.ui.presentation;
 
-import info.sequitur.ui.presentation.state.SimpleState;
-import info.sequitur.ui.presentation.state.State;
-
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -32,6 +29,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
+
+import info.sequitur.ui.presentation.state.SimpleState;
+import info.sequitur.ui.presentation.state.State;
 
 public class StatePanel extends JPanel implements ModelChangeListener
 {
@@ -71,14 +71,14 @@ public class StatePanel extends JPanel implements ModelChangeListener
 		areaOldGrammer.setEditable(false);
 		areaOldDigrams.setEditable(false);
 
-		areaGrammer.setBorder(BorderFactory
-				.createBevelBorder(BevelBorder.LOWERED));
-		areaDigrams.setBorder(BorderFactory
-				.createBevelBorder(BevelBorder.LOWERED));
-		areaOldGrammer.setBorder(BorderFactory
-				.createBevelBorder(BevelBorder.LOWERED));
-		areaOldDigrams.setBorder(BorderFactory
-				.createBevelBorder(BevelBorder.LOWERED));
+		areaGrammer.setBorder(
+				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		areaDigrams.setBorder(
+				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		areaOldGrammer.setBorder(
+				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		areaOldDigrams.setBorder(
+				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
 		areaOldGrammer.setBackground(new Color(0xDDDDDD));
 		areaOldDigrams.setBackground(new Color(0xDDDDDD));
@@ -166,4 +166,5 @@ public class StatePanel extends JPanel implements ModelChangeListener
 		areaGrammer.setText(state.table);
 		areaDigrams.setText("Bigramm-Index\n" + state.digrams);
 	}
+
 }

@@ -20,11 +20,6 @@
 
 package info.sequitur.util;
 
-import info.sequitur.algorithm.NonTerminal;
-import info.sequitur.algorithm.Rule;
-import info.sequitur.algorithm.Sequitur;
-import info.sequitur.algorithm.Symbol;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,8 +28,14 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import info.sequitur.algorithm.NonTerminal;
+import info.sequitur.algorithm.Rule;
+import info.sequitur.algorithm.Sequitur;
+import info.sequitur.algorithm.Symbol;
+
 public class RulePrinter
 {
+
 	private Sequitur sequitur;
 
 	private StringBuilder text;
@@ -96,7 +97,8 @@ public class RulePrinter
 				Rule referedTo = ((NonTerminal) sym).getRule();
 				Integer indexOrNull = ruleToIndex.get(referedTo);
 				int index = indexOrNull == null ? 0 : indexOrNull;
-				if ((rules.size() <= index) || (rules.get(index) != referedTo)) {
+				if ((rules.size() <= index)
+						|| (rules.get(index) != referedTo)) {
 					ruleToIndex.put(referedTo, rules.size());
 					rules.add(referedTo);
 				}
@@ -245,4 +247,5 @@ public class RulePrinter
 		}
 		return text.toString();
 	}
+
 }

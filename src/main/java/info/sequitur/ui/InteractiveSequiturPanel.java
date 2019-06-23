@@ -20,11 +20,6 @@
 
 package info.sequitur.ui;
 
-import info.sequitur.algorithm.Sequitur;
-import info.sequitur.util.NamingOrder;
-import info.sequitur.util.NamingStrategy;
-import info.sequitur.util.RulePrinter;
-
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,6 +29,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
+
+import info.sequitur.algorithm.Sequitur;
+import info.sequitur.util.NamingOrder;
+import info.sequitur.util.NamingStrategy;
+import info.sequitur.util.RulePrinter;
 
 public class InteractiveSequiturPanel extends JPanel
 {
@@ -118,4 +118,5 @@ public class InteractiveSequiturPanel extends JPanel
 				NamingOrder.BY_CREATION);
 		rules.setText(printer.getTable());
 	}
+
 }

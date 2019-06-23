@@ -26,6 +26,7 @@ import info.sequitur.algorithm.Symbol;
 
 public class Decoder
 {
+
 	public static String decode(Sequitur sequitur)
 	{
 		StringBuilder text = new StringBuilder();
@@ -54,4 +55,5 @@ public class Decoder
 			text.append((char) symbol.getValue());
 		}
 	}
+
 }
